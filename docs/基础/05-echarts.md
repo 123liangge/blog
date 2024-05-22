@@ -12,7 +12,7 @@ vscode 插件：[echarts-enhanced-completion](https://github.com/ren-wei/echarts
 
 快速了解功能名称，帮助定位到配置项手册：[术语速查手册](https://echarts.apache.org/zh/cheat-sheet.html)
 
-地图数据：https://datav.aliyun.com/portal/school/atlas/area_selector#&lat=30.332329214580188&lng=106.72278672066881&zoom=3.5
+地图数据：[datav](https://datav.aliyun.com/portal/school/atlas/area_selector#&lat=30.332329214580188&lng=106.72278672066881&zoom=3.5)
 
 ## 二、起步
 
