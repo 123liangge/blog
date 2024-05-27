@@ -338,14 +338,196 @@ switch (i) {
 
 ### 3.1 基本概念
 
-面向对象编程：
+- 面向对象编程（OOP）：将程序的逻辑划分为对象，每个对象包含数据（属性）和操作（方法），特点：封装，继承，多态。
 
-面向过程编程：
 
-工厂模式：
+- 面向过程编程：将程序的逻辑划分为一系列的过程或函数，每个函数执行特定的任务。
 
-单例模式：
+
+- 工厂模式：提供了一种创建对象的方式，使得创建对象的过程与使用对象的过程分离。
+
+
+- 单例模式：确保一个类只有一个实例，并提供了一个全局访问点来访问该实例。
+
+- 观察者模式：一种行为型设计模式，它定义了一种一对多的依赖关系，当一个对象的状态发生改变时，其所有依赖者都会收到通知并自动更新。
+
+- MVC 模式：代表 Model-View-Controller（模型-视图-控制器） 模式。这种模式用于应用程序的分层开发。
+
+### 3.2 创建对象
+
+- 直接字面量
+
+  ```js
+  let user = {
+      id: 1,
+      username: 'tom',
+      age: 20,
+      gender: '女',
+      info() {
+        console.log(`{ id: ${this.id}, username: "${this.username}", age: ${this.age}, gender: "${this.gender}" }`)
+      },
+    }
+  user.info() // { id: 1, username: "tom", age: 20, gender: "女" }
+  ```
+
+- 使用Object构造函数创建对象
+
+  ```js
+  let user = new Object()
+    user.username = 'tom'
+    user.age = 20
+    user.id = 1
+    user.gender = '男'
+    user.show = function () {
+      console.log(`{ id: ${this.id}, username: "${this.username}", age: ${this.age}, gender: "${this.gender}" }`)
+    }
+    // 调用函数show
+    user.show() // { id: 1, username: "tom", age: 20, gender: "男" }
+  ```
+
+- 工厂模式
+
+  ```js
+   let $ = function (id, username, age, gender) {
+      let object = new Object()
+      object.id = id
+      object.username = username
+      object.age = age
+      object.gender = gender
+      object.show = function () {
+        console.log(`{ id: ${this.id}, username: "${this.username}", age: ${this.age}, gender: "${this.gender}" }`)
+      }
+      return object
+    }
+  
+    let user = $(1, 'wenddy', 19, 'female')
+    user.show() // { id: 1, username: "wenddy", age: 19, gender: "female" }
+    let user1 = $(2, 'tom', 20, 'male')
+    user1.show() // { id: 2, username: "tom", age: 20, gender: "male" }
+  ```
+
+- 构造函数模式
+
+  ```js
+  // 首字母大写的构造函数(constructor): 用于创建对象并对对象的属性进行赋值(初始化)的函数
+    function User(id, username, age, gender) {
+      this.id = id
+      this.username = username
+      this.age = age
+      this.gender = gender
+      this.show = function () {
+        console.log(`{ id: ${this.id}, username: "${this.username}", age: ${this.age}, gender: "${this.gender}" }`)
+      }
+      // 构造函数中this: 是使用构造函数创建的对象本身
+    }
+    let user = new User(1, 'wenddy', 19, 'female') // { id: 1, username: "wenddy", age: 19, gender: "female" }
+    user.show()
+  ```
+
+- 原型模式
+- 使用class创建对象
+
+### 3.3 继承
+
+- 原型链
+
+- 组合继承
+
+- 原型式继承
+
+- 寄生式继承
+
+- 寄生式组合继承
+
+### 3.4 类
+
+类的构成：类可以包含构造函数方法、实例方法、获取函数、设置函数和静态类方法
 
 ## 四、函数
 
+### 4.1 基本概念
+
+函数声明：function
+
+函数返回值：return
+
+函数作用域：局部作用域，全局作用域，访问原则：就近原则，先局部后全局
+
+立即执行函数：`;(function(形参){函数体}）（实参）`:无需调用，直接执行
+
+箭头函数：=>
+
+匿名函数：function()
+
+函数提升：函数提升与变量提升比较类似，是指函数在声明之前即可被调用
+
+闭包：引用了另一个函数作用域中变量的函310 第 10 章 函 数数，通常是在嵌套函数中实现的。
+
+### 4.2 箭头函数
+
+- 如果只有一个参数，那也可以不用括号。只有没有参数，或者多个参数的情况下，才需要使用括号
+
+  ```js
+  // 以下两种写法都有效
+  let double = (x) => { return 2 * x; }; 
+  let triple = x => { return 3 * x; }; 
+  // 没有参数需要括号
+  let getRandom = () => { return Math.random(); }; 
+  // 多个参数需要括号
+  let sum = (a, b) => { return a + b; };
+  ```
+
+- 如果函数体只有一行代码，可以写到一行上，并且无需写 return 直接返回值
+
+  ```js
+  const fn = x => console.log(x)
+  ```
+
+- 加括号的函数体返回对象字面量表达式
+
+  ```js
+  const fn = (uname) => ({uname:uname})
+  ```
+
+- 箭头函数this：箭头函数不会创建自己的this,它只会从自己的作用域链的上一层沿用this。
+
+- 注意：箭头函数不能使用 arguments、super 和new.target，也不能用作构造函数，dom事件函数。此外，箭头函数也没有 prototype 属性。
+
+### 4.3 函数参数
+
+默认参数
+
+动态参数
+
+剩余参数
+
+### 4.3 回调函数与递归函数
+
+- 回调函数：如果将函数 A 做为参数传递给函数 B 时，我们称函数 A 为回调函数
+
+  ```js
+  const B = (A) => A()
+  ```
+
+- 递归函数：函数内部自己调用自己, 这个函数就是递归函数，必须要加退出条件 return
+
+  ```js
+  function getTime() {
+        document.querySelector('div').innerHTML = new Date().toLocaleString()
+        setTimeout(getTime, 1000)
+      }
+  ```
+
+### 4.4 apply、call、bind
+
+
+
 ## 五、期约与异步函数
+
+## 六、BOM
+
+## 七、DOM
+
+## 八、事件
+
+## 九、客户端存储
