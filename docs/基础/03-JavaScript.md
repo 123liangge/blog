@@ -455,7 +455,7 @@ switch (i) {
 
 立即执行函数：`;(function(形参){函数体}）（实参）`:无需调用，直接执行
 
-箭头函数：=>
+箭头函数：( ) => { }
 
 匿名函数：function()
 
@@ -495,11 +495,49 @@ switch (i) {
 
 ### 4.3 函数参数
 
-默认参数
+- 默认参数
 
-动态参数
+  在函数定义中的参数后面用=就可以为参数赋一个默认值；
 
-剩余参数
+  给参数传 undefined 相当于没有传值，
+
+  在使用默认参数时，arguments 对象的值不反映参数的默认值，只反映传给函数的参数。
+
+  ```js
+  function makeKing(name = 'Henry', numerals = 'VIII') { 
+   return `King ${name} ${numerals}`; 
+  }
+  ```
+
+- 动态参数
+
+  当我们不确定有多少个参数传递的时候，可以用` arguments` 来获取，arguments类型为伪数组，箭头函数无此对象。
+
+  ```js
+  // 获取最大数
+  function maxValue() {
+   var max = arguments[0];
+   for (var i = 0; i < arguments.length; i++) {
+   if (max < arguments[i]) {
+   max = arguments[i];
+   }
+   }
+   return max;
+  }
+  console.log(maxValue(2, 4, 5, 9));
+  console.log(maxValue(12, 4, 9));
+  ```
+
+- 扩展参数
+
+  剩余参数允许我们将一个不定数量的参数表示为一个数组。
+
+  ```js
+  let getSum = (...values) => { 
+   return values.reduce((x, y) => x + y, 0); 
+  } 
+  console.log(getSum(1,2,3)); // 6
+  ```
 
 ### 4.3 回调函数与递归函数
 
@@ -512,15 +550,73 @@ switch (i) {
 - 递归函数：函数内部自己调用自己, 这个函数就是递归函数，必须要加退出条件 return
 
   ```js
-  function getTime() {
-        document.querySelector('div').innerHTML = new Date().toLocaleString()
-        setTimeout(getTime, 1000)
-      }
+  function factorial(num) { 
+   if (num <= 1) { 
+   return 1; 
+   } else { 
+   return num * factorial(num - 1); 
+   } 
+  }
   ```
 
 ### 4.4 apply、call、bind
 
+相同点：都用于改变函数调用上下文（即this指向）的方法，。
 
+不同点：
+
+- **参数形式**
+
+  **call**：第一个参数是this的指向，后面传入的是一个参数列表
+
+  **apply**：第一个参数也是this的指向，但第二个参数必须是数组或者类数组对象，用以表示传递给被调用函数的参数
+
+  **bind**：第一参数是this的指向，后续参数可以分多次传入，并且不会立即执行，而是返回一个永久改变this指向的新函数
+
+- **执行方式**
+
+  **call**：改变this指向后会立即执行函数
+
+  **apply**：与call类似，也会在改变this指向后立即执行函数
+
+  **bind**：不会立即执行，而是返回一个新的绑定了this的函数
+
+- **返回值**
+
+  **call**：函数本身的执行结果
+
+  **apply**：与call相同，返回函数执行的结果
+
+  **bind**：不执行函数，而是返回一个新函数
+
+  ```js
+  //例如：
+  const obj = {}//定义一个空的对象
+  function f(x, y) {
+     console.log(x, y)
+     console.log(this) //this是指obj
+  }
+  f.apply(obj, [1, 2]) //后面的值需要用[]括起来
+  f.call(obj, 1, 2) //直接写
+  f.bind(obj, 1, 2)()
+  ```
+
+应用：
+
+- 判断数据类型(可判断arr,obj) `Object.prototype.toString.call( )`
+
+  ```js
+  console.log(Object.prototype.toString.call("qq"))            // [Object String] 返回值都是字符串类型
+  ```
+
+- 求最大值 `Math.max.apply( )`
+
+  ```js
+  const arr =[2,6,8,3,4,9,7,23,56,889]; 
+  console.log(Math.max.apply(arr,arr)) //第一个arr表示让arr借用max这个方法，第二个arr表示传给max的数据
+  
+  //apply()所执行的操作：1.执行Math.max(1,2,3,5,4) 2.把内部的this改成arr
+  ```
 
 ## 五、期约与异步函数
 
