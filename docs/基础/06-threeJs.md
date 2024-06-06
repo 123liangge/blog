@@ -4,8 +4,9 @@
 
 1、three.js官网
 
-[three]: https://threejs.org/
-[three中文网]: http://webgl3d.cn/
+[three](https://threejs.org/)
+
+[three中文网](http://webgl3d.cn/)
 
 2、简介
 
