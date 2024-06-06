@@ -40,8 +40,8 @@ export default defineConfig({
             { text: "CSS", link: "/基础/02-css" },
             { text: "JavaScript", link: "/基础/03-JavaScript" },
             { text: "jQuery", link: "/基础/04-jQuery" },
-            { text: "echarts", link: "/基础/05-echarts" },
-            { text: "three", link: "/基础/06-threeJs" }
+            { text: "Echarts", link: "/基础/05-echarts" },
+            { text: "Three", link: "/基础/06-threeJs" }
           ]
         }
       ]
