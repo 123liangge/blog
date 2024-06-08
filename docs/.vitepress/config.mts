@@ -94,7 +94,8 @@ export default defineConfig({
       message: "基于 MIT 许可发布",
       copyright: `版权所有 © 2023-${new Date().getFullYear()} 浪淘沙`
     },
-    socialLinks: [{ icon: "github", link: "https://github.com/vuejs/vitepress" }]
+    socialLinks: [{ icon: "github", link: "https://github.com/123liangge/blog" }]
+    // socialLinks: [{ icon: "github", link: "https://github.com/vuejs/vitepress" }]
   },
   markdown: {
     // 开启代码块的行号
