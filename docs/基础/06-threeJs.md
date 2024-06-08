@@ -8,6 +8,10 @@
 
 [three中文网](http://webgl3d.cn/)
 
+[其他](https://www.three3d.cn/)
+
+[仓库地址](https://github.com/mrdoob/three.js)
+
 2、简介
 
 Three.js 是一个开源的应用级 3D JavaScript 库，可以让开发者在网页上创建 3D 体验。Three.js 屏蔽了 WebGL的底层调用细节，让开发者能更快速的进行3D场景效果的开发。
@@ -70,7 +74,7 @@ camera.position.z = 5
 camera.lookAt(0, 0, 0)
 // 渲染场景
 function animate() {
-  // 动画循环
+  //  渲染下一帧的时候就会调用animate函数
   requestAnimationFrame(animate)
   // 旋转
   cube.rotation.x += 0.01
@@ -81,6 +85,112 @@ function animate() {
 animate()
 ```
 
-## 三、开发
+## 三、基础
 
 ### 3.1 坐标辅助器与轨道控制器
+
+① 坐标辅助器，红色为x轴，绿色为y轴，蓝色为z轴,[详见](https://threejs.org/docs/index.html#api/zh/helpers/ArrowHelper)
+
+```js
+// AxesHelper：辅助观察的坐标系，参数为坐标长度
+const axesHelper = new THREE.AxesHelper(150)
+scene.add(axesHelper)
+```
+
+② 轨道控制器，[详见](https://threejs.org/docs/index.html#examples/zh/controls/OrbitControls)
+
+```js
+// 导入轨道控制器
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+// 添加轨道控制器
+const controls = new OrbitControls(camera, renderer.domElement)
+// 设置带阻尼的惯性
+controls.enableDamping = true
+// 设置阻尼系数
+controls.dampingFactor = 0.05
+// 设置转动速度
+controls.autoRotate = true
+// 更新控制器。必须在摄像机的变换发生任何手动改变后调用
+controls.update()
+```
+
+### 3.2 几何体基本操作
+
+[详见](https://threejs.org/docs/index.html#api/zh/core/Object3D)
+
+① 物体位移与缩放
+
+```js
+// 创建网格
+const cube = new THREE.Mesh(geometry, material)
+// 几何体的位移
+// cube.position.y = 2
+cube.position.set(2, 0, 0)
+// 缩放
+cube.scale.set(2,2,2)
+```
+
+② 父子元素
+
+```js
+// 创建父元素
+const faCube = new THREE.Mesh(geometry, material)
+// 创建子元素
+const cube = new THREE.Mesh(geometry, material)
+// 将子元素添加到父元素中
+faCube.add(cube)
+// 将网格添加到场景中
+scene.add(faCube)
+```
+
+注意：子元素的坐标相对于父元素的坐标
+
+③ 物体旋转
+
+```js
+//直接设置旋转属性，例如围绕x轴旋转90度
+cube.rotation.x = -Math.PI/2
+//围绕x轴旋转45度
+cube.rotation.set(-Math.PI / 4, 0, 0, "XZY");
+```
+
+### 3.3 屏幕自适应
+
+① 自适应屏幕大小
+
+```js
+// 监听画面变化，更新渲染画面
+window.addEventListener('resize', () => {
+  // 更新摄像头
+  camera.aspect = window.innerWidth / window.innerHeight
+  // 更新摄像机的投影矩阵
+  camera.updateProjectionMatrix()
+
+  // 更新渲染器
+  renderer.setSize(window.innerWidth, window.innerHeight)
+  // 设置渲染器的像素比
+  renderer.setPixelRatio(window.devicePixelRatio)
+})
+```
+
+②  控制场景全屏
+
+```js
+window.addEventListener("dblclick", () => {
+  const fullScreenElement = document.fullscreenElement;
+  if (!fullScreenElement) {
+    //   双击控制屏幕进入全屏，退出全屏
+    // 让画布对象全屏
+    renderer.domElement.requestFullscreen();
+  } else {
+    //   退出全屏，使用document对象
+    document.exitFullscreen();
+  }
+});
+```
+
+### 3.4 调试器与编辑器
+
+① 调试器 -gui：可以快速创建控制三维场景的UI交互界面
+
+## 四、几何体
