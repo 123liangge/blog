@@ -52,6 +52,20 @@ vscode 插件：[echarts-enhanced-completion](https://github.com/ren-wei/echarts
    myChart.setOption(option);
    ```
 
+6. 监听图表容器的大小并改变图表大小
+
+   ```js
+   window.addEventListener('resize', function() {
+      myChart.resize();
+    });
+   ```
+
+7. 销毁实例（用于组件卸载时）
+
+   ```js
+   myChart.dispose()
+   ```
+
 ## 三、基础配置项
 
 ![](./images/05-1.png)
@@ -67,3 +81,61 @@ vscode 插件：[echarts-enhanced-completion](https://github.com/ren-wei/echarts
 7. `xAxis`：设置 x 轴的相关配置
 8. `yAxis`：设置 y 轴的相关配置
 9. `series`：系列图表配置；它决定着显示哪种类型的图表
+
+## 四、常用业务逻辑
+
+### 1、轮播效果
+
+需求设计：以地图实例，提示框组件轮播，区域高亮，鼠标移入或移除停止轮播
+
+实现思路：
+
+```js
+function swiper(myChart, option) {
+      let index = 0;
+      let mTime = null;
+      const action = (type, seriesIndex, dataIndex) =>
+        myChart.dispatchAction({ type, seriesIndex, dataIndex });
+      // 轮播实现
+      const run = () => {
+        mTime = setInterval(() => {
+          // 清除之前的高亮
+          action("downplay", 0, null);
+          index++;
+          // 提示框组件显示
+          action("showTip", 0, index);
+          // 当前下标高亮
+          action("highlight", 0, index);
+          // 循环
+          if (index >= option.series[0].data.length - 1) {
+            index = -1;
+          }
+        }, 2000);
+      };
+      run();
+      // 鼠标移入
+      myChart.on("mouseover", (params) => {
+        // 停止轮播
+        clearInterval(mTime);
+        mTime = null;
+        // 清除之前的高亮
+        action("downplay", 0, null);
+        // 提示框组件显示
+        action("showTip", 0, params.dataIndex + 1);
+        // 当前下标高亮
+        action("highlight", 0, params.dataIndex);
+      });
+      // 鼠标移出
+      myChart.on("mouseout", () => {
+        if (mTime) {
+          clearInterval(mTime);
+        }
+        run();
+      });
+    }
+```
+
+### 2、地图下钻
+
+
+
