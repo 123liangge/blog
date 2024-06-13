@@ -191,6 +191,8 @@ window.addEventListener("dblclick", () => {
 
 ### 3.4 调试器与编辑器
 
-① 调试器 -gui：可以快速创建控制三维场景的UI交互界面
+① 调试器 -gui：可以快速创建控制三维场景的UI交互界面，[详见](https://lil-gui.georgealways.com)
+
+② 编辑器
 
 ## 四、几何体
