@@ -624,6 +624,222 @@ switch (i) {
 
 ## 七、DOM
 
+### 7.1 基本概念
+
+**Dom：**文档对象模型（DOM，Document Object Model）是 HTML 和 XML 文档的编程接口。DOM是浏览器提供的一套专门用来 操作网页内容 的功能。
+
+### 7.2 Dom节点
+
+**节点分类**
+
+- 元素节点，比如 div标签
+
+- 属性节点，比如 class属性
+
+- 文本节点，比如标签里面的文字
+
+**节点信息**
+
+- nodeName：节点名称，获取标签返回大写标签名
+
+  ```html
+  <div class="box">
+      <ul id="nodeList" style="color:red;">
+          <!--注释信息-->
+        <li>nodeName信息</li>
+        <li>nodeValue</li>
+        <li>nodeType</li>
+      </ul>
+      <p id="xswz">赏识</p>
+  </div>
+  <script>
+      let ul = document.getElementById('nodeList')
+      // 1-1 ul的节点名称
+      console.log(ul.nodeName) // UL
+      // 1-2 获得ul对象的id节点
+      let attr = ul.getAttributeNode('id')
+      console.log(attr.nodeName) // id
+      // 1-3 获得注释节点名称
+      let comments = ul.firstChild
+      console.log(comments.nodeName) // #comment
+      // 1-4 获得文本节点名称
+      let text = ul.firstElementChild.firstChild
+      console.log(text.nodeName) // #text
+      // 1-5 文档节点的名称
+      console.log(document.nodeName) // #document
+      // 1-6 文档类型声明节点
+      console.log(document.firstChild.nodeName) // html
+      // 1-7 html元素
+      let html = document.getElementsByTagName('html')[0]
+      console.log(html.nodeName) // HTML
+  </script>
+  ```
+
+- nodeType：节点类型
+
+  - `1===Node.ELEMENT_NODE`；元素
+
+  - `2===Node.ATTRIBUTE_NODE`；属性
+
+  - `3===Node.TEXT_NODE`；文本
+
+  - `8===Node.COMMENT_NODE`；注释
+
+  - `9===Node.DOCUMENT_NODE`；文档
+
+    ```html
+    <div class="box">
+        <ul id="nodeList" style="color:red;"><!--注释信息-->
+          <li>nodeName信息</li>
+          <li>nodeValue</li>
+          <li>nodeType</li>
+        </ul>
+        <p id="xswz">赏识</p>
+    </div>
+    <script>
+        let ul = document.getElementById('nodeList')
+        // 2-1 ul的节点类型
+        console.log(ul.nodeType) // 1
+        // 2-2 获得ul对象的id节点类型
+        let attr = ul.getAttributeNode('id')
+        console.log(attr.nodeType) // 2
+        // 2-3 获得注释节点类型
+        let comments = ul.firstChild
+        console.log(comments.nodeType) // 8
+        // 2-4 获得文本节点类型
+        let text = ul.firstElementChild.firstChild
+        console.log(text.nodeType) // 3
+        // 2-5 文档节点的节点类型
+        console.log(document.nodeType) // 9
+        // 2-6 文档类型声明节点类型
+        console.log(document.firstChild.nodeType) // 10
+        // 2-7 判断html元素节点类型
+        let html = document.getElementsByTagName('html')[0]
+        console.log(html.nodeType === Node.ELEMENT_NODE) // true
+    </script>
+    ```
+
+- nodeValue：节点值；属性节点，文本节点，注释节点是有nodeValue，其它基本都是null
+
+  ```html
+  <div class="box">
+      <ul id="nodeList" style="color:red;"><!--注释信息-->
+        <li>nodeName信息</li>
+        <li>nodeValue</li>
+        <li>nodeType</li>
+      </ul>
+      <p id="xswz">赏识</p>
+  </div>
+  <script>
+      let ul = document.getElementById('nodeList')
+      // 3-1 ul的节点类型
+      console.log(ul.nodeValue) // null
+      // 3-2 获得ul对象的id节点类型
+      let attr = ul.getAttributeNode('id')
+      console.log(attr.nodeValue) // nodeList
+      // 3-3 获得注释节点类型
+      let comments = ul.firstChild
+      console.log(comments.nodeValue) // 注释信息
+      // 3-4 获得文本节点类型
+      let text = ul.firstElementChild.firstChild
+      console.log(text.nodeValue) // nodeName信息
+      // 3-5 文档节点的节点类型
+      console.log(document.nodeValue) // null
+      // 3-6 文档类型声明节点类型
+      console.log(document.firstChild.nodeValue) // null
+      // 3-7 html元素节点类型
+      let html = document.getElementsByTagName('html')[0]
+      console.log(html.nodeValue) // null
+  </script>
+  ```
+
+**节点操作**
+
+1. 节点关系及获取
+
+   ![](./images/03-5.png)
+
+2. 操纵节点
+
+   - 获取节点
+
+     - 父节点查找：`子元素.parentNode`；返回最近一级的父节点 找不到返回为null
+
+     - 子节点查找
+
+       - `父元素.childNodes`：获得所有子节点、包括文本节点（空格、换行）、注释节点等
+
+       - `父元素.children`：获取所有子元素，返回伪数组，只读
+
+       - `父元素.firstChild`：第一个子节点/父元素.firstElementChild第一个子元素
+       - `父元素.lastChild`：最后一个子节点/父元素.lastElementChild最后一个子元素
+
+     - 兄弟节点查找
+
+       - `.nextSibling`：下一个节点/.nextElementSibling：下一个元素
+
+       - `.previousSibling`：上一个节点/.previousElementSibling：上一个元素
+
+   - 创建节点
+
+     - 创建元素节点：`document.createElement('div')`
+     - 创建文本节点：`document.createTextNode('文本')`
+
+   - 删除节点
+
+     - 父元素.removeChild(要删除的元素)
+
+     - ```js
+       var parentElement = document.getElementById('parent'); // 获取父元素
+       var childElement = document.getElementById('child'); // 获取子元素
+       parentElement.removeChild(childElement); // 从父元素中删除子元素
+       ```
+
+     - 元素.remove()，删除自身，无参数
+
+   - 追加节点
+
+     - `父元素.appendChild(要插入的元素)` ；插到父元素最后
+     - `父元素.insertBefore( 要插入的元素 , 在哪个元素前面)`；插到某个子元素前面
+     - `父元素.append(要插入的元素，文本)` ；插到父元素最后，可接受多个参数
+     - `父元素.prepend(要插入的元素，文本)` ；插到父元素前面，可接受多个参数
+     - `兄弟.after(参数)/before(参数)`，插到兄弟后/前，可接受多个参数
+
+   - 替换节点
+
+     - `父元素.replaceChild(newNode,oldNode)`
+     - `oldNode.replaceWith(newNode)`可接受多个参数
+
+   - 克隆节点
+
+     - `元素.cloneNode(布尔值)`
+     - true，后代节点一起克隆
+     - false，后代节点不克隆,默认为false
+
+   - 操作节点属性
+
+     - `.getAttribute("id")`；获取id属性值
+     - `.setAttribute("href","http://www.baidu.com")`；设置属性值
+     - `.removeAttribute( 'class','active')`；移除属性值
+     - `.attributes` 获取属性集合
+
+3. 其他
+
+   ```js
+   // 读取文档标题
+   let originalTitle = document.title;
+   // 修改文档标题
+   document.title = "New page title";
+   // 取得完整的 URL 
+   let url = document.URL;
+   // 取得域名
+   let domain = document.domain;
+   // 取得来源
+   let referrer = document.referrer;
+   ```
+
+### 7.3 Dom操作
+
 ## 八、事件
 
 ## 九、客户端存储
