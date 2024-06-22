@@ -125,7 +125,7 @@
    new Date().getDay(); //返回日期中表示周几的数值（0 表示周日，6 表示周六）
    ```
 
-2. `RegExp`
+2. `RegExp`：正则表达式
 
 3. 原始包装类型
 
@@ -622,6 +622,89 @@ switch (i) {
 
 ## 六、BOM
 
+BOM(Browser Object Model浏览器对象模型)。
+
+### 6.1 window对象
+
+BOM 的核心是 window 对象，表示浏览器的实例。网页中定义的所有对象、变量和函数都以 window 作为其 Global 对象。
+
+- 窗口大小：`window.innerWidth` 和 `window.innerHeight`
+- 视口位置：`window.pageXoffset/window. scrollX` 和 `window.pageYoffset/window.scrollY`
+- 导航与打开新窗口：`window.open()`方法可以用于导航到指定 URL，也可以用于打开新浏览器窗口，接收 4个参数：要加载的 URL、目标窗口、特性字符串和表示新窗口在浏览器历史记录中是否替代当前加载页面的布尔值。通常，调用这个方法时只传前 3 个参数，最后一个参数只有在不打开新窗口时才会使用。
+- 定时器与间歇函数：`setTimeout(callback,time)`，`clearTimeout(id)`，`setInterval(callback,time)`，`clearInterval(id)`
+- 系统对话框：`alert()`、`confirm()`和 `prompt()`
+
+### 6.2 location对象
+
+location 是最有用的 BOM 对象之一，提供了当前窗口中加载文档的信息，以及通常的导航功能。它既是 window 的属性，也是 document 的属性。也就是说，`window.location` 和 `document.location` 指向同一个对象。
+
+假设浏览器当前加载的 URL 是 http://foouser:barpassword@www.wrox.com:80/WileyCDA/?q= javascript#contents，location 对象的内容如下表所示，注意：除了 hash 之外，只要修改 location 的一个属性，就会导致页面重新加载新 URL。
+
+![](./images/03-10.png)
+
+**操作地址**：
+
+- 立即启动导航到新 URL 的操作
+
+  `location.assign("http://www.wrox.com")`
+
+  `window.location = "http://www.wrox.com"`
+
+  `location.href = "http://www.wrox.com"`
+
+- 重新加载后不会增加历史记录,调用 replace()之后，用户不能回到前一页
+
+   `location.replace("http://www.wrox.com/")`
+
+- 重新加载当前显示的页面
+
+  `location.reload()`： 重新加载，可能是从缓存加载
+
+  `location.reload(true)`： 重新加载，从服务器加载
+
+### 6.3 navigator对象
+
+navigator 对象的属性通常用于确定浏览器的类型；示例：
+
+```js
+// 检测 userAgent（浏览器信息）
+!(function () {
+const userAgent = navigator.userAgent
+// 验证是否为Android或iPhone
+const android = userAgent.match(/(Android);?[\s\/]+([\d.]+)?/)
+const iphone = userAgent.match(/(iPhone\sOS)\s([\d_]+)/)
+// 如果是Android或iPhone，则跳转至移动站点
+if (android || iphone) {
+location.href = 'http://m.itcast.cn' }
+})()
+```
+
+### 6.4 screen对象
+
+这个对象中保存的纯粹是客户端能力信息，也就是浏览器窗口外面的客户端显示器的信息，比如像素宽度和像素高度。
+
+![](./images/03-11.png)
+
+### 6.5 history对象
+
+history 对象表示当前窗口首次使用以来用户的导航历史记录。history 对象还有一个 length 属性，表示历史记录中有多个条目。这个属性反映了历史记录的数量，包括可以前进和后退的页面。
+
+1. 导航
+
+   `go()`方法可以在用户历史记录中沿任何方向导航
+
+   `history.go(-1)`与`history.back()`：后退一页
+
+   `history.go(1)`与`history.forward()`：前进一页
+
+   `history.go(2)`：前进两页
+
+   `history.go("wrox.com")`：导航到最近的 wrox.com 页面
+
+2. 历史状态管理
+
+   hashchange 事件会在页面 URL 的散列变化时被触发，开发者可以在此时执行某些操作。而状态管理API 则可以让开发者改变浏览器 URL 而不会加载新页面。`history.pushState()`接收 3 个参数：一个 state 对象、一个新状态的标题和一个（可选的）相对 URL。pushState()方法执行后，状态信息就会被推到历史记录中，浏览器地址栏也会改变以反映新的相对 URL，会创建新的历史记录。
+
 ## 七、DOM
 
 ### 7.1 基本概念
@@ -957,4 +1040,176 @@ switch (i) {
 
 ## 八、事件
 
+### 8.1 事件流
+
+- 事件冒泡：当一个元素的事件被触发时，所有祖先元素依次被触发，事件冒泡是默认存在的。
+
+- 事件捕获：所有祖先元素依次触发，目标元素最后被触发。
+
+### 8.2 事件绑定
+
+绑定的三种方式
+
+- HTML事件绑定
+
+  ```html
+  <input type="button" value="Click Me" onclick="callBack()"/>
+  ```
+
+- DOM0事件绑定
+
+  语法：`事件源.on事件 = function() { }`
+
+  ```js
+  let btn = document.getElementById("myBtn"); 
+  btn.onclick = function() { 
+   console.log("Clicked"); 
+   console.log(this) // this 指向元素本身
+  };
+  btn.onclick = null; // 移除事件处理程序
+  ```
+
+- DOM2事件绑定
+
+  语法：`事件源.addEventListener(event， callBack，Boolean)`
+
+  接收 3 个参数：事件名、事件处理函数和一个布尔值，true 表示在捕获阶段调用事件处理程序，false（默认值）表示在冒泡阶段调用事件处理程序；
+
+  ```js
+  let btn = document.getElementById("myBtn");
+      btn.addEventListener("click", () => {
+        // callBack采用箭头函数，this指向外层作用域，即Window
+        console.log(this); // Window
+      });
+      /* 取消事件监听 */
+      let handler = function () {
+        console.log(this);
+      };
+      btn.addEventListener("click", handler);
+      // 其他代码
+      btn.removeEventListener("click", handler);
+  ```
+
+### 8.3 事件对象
+
+获取事件对象：语法：`元素.addEventListener('click', function (e) {  console.log(e)  })`
+
+![](./images/03-12.png)
+
+![](./images/03-13.png)
+
+在事件处理程序内部，this 对象始终等于 currentTarget 的值，而 target 只包含事件的实际目标。
+
+```js
+let btn = document.getElementById("myBtn"); 
+btn.onclick = function(event) { 
+ console.log(event.currentTarget === this); // true 
+ console.log(event.target === this); // true 
+};
+```
+
+常用方法：
+
+- 阻止冒泡：`e.stopPropagation()`此方法可以阻断事件流动传播，不光在冒泡阶段有效，捕获阶段也有效。
+- 阻止特定事件的默认动作：`e.preventDefault()`或事件回调函数`return false`
+- `e.clientX/e.clientY`：获取光标相对于浏览器可见窗口左上角的位置
+- `e.offsetX/e.offsetY`：获取光标相对于当前DOM元素左上角的位置
+- `e.key`：用户按下的键盘键的值；现在不提倡使用keyCode
+- `event.target.nodeName`：获取事件触发元素标签名
+- `event.target.id`：获取事件触发元素id
+- `event.target.className`：获取事件触发元素classname
+- `event.target.innerHTML`：获取事件触发元素的内容（li）
+- `e.target.files[0]`：点击的文件
+- `e.target.classList.contains('类名')`：判断点击对象是否包含类
+- `e.target.value`
+
+### 8.4 事件类型
+
+- 用户界面事件
+
+  - `load`：在 window 对象上，load 事件会在整个页面（包括所有外部资源如图片、JavaScript 文件和 CSS 文件）加载完成后触发，也可以针对某个资源绑定load事件
+  - `unload`：在文档卸载完成后触发即从一个页面导航到另一个页面时触发，最常用于清理引用，以避免内存泄漏。
+  - `beforeunload`：该事件在关闭或刷新网页之前触发
+  - `DOMContentLoaded`：当初始的 HTML 文档被完全加载和解析完成之后，DOMContentLoaded 事件被触发，而无需等待样式表、图像等完全加载。
+  - `resize`：当浏览器窗口缩放时会触发 resize 事件。
+  - `scroll`：滚动条在滚动的时候持续触发的事件比如固定导航栏，比如返回顶部。
+
+- 鼠标事件
+
+  - `clic`k：鼠标单击
+  - `dblclick` ：鼠标双击
+  - `contextmenu`：右键事件
+  - `mousedown`：鼠标按下（任意键）
+  - `mouseenter`：鼠标经过（无冒泡效果推荐）
+  - `mouseleave`：鼠标离开（无冒泡效果推荐）
+  - mouseover和mouseout会有冒泡效果
+
+- 表单事件
+
+  - `focus`：获得焦点触发
+  - `blur`：失去焦点触发
+  - `input`： 输入事件 关注输入过程
+  - `change`：更新事件 关注输入结果
+  - `reset`：重置事件事件目标是form
+  - `submit`：表单提交事件 事件目标是form
+
+- 键盘事件
+
+  - `keydown`：键盘按下触发
+  - `keypress`：按住键盘时触发
+  - `keyup`：键盘松开触发
+
+- 设备事件
+
+  - `orientationchange`：判断用户的设备是处于垂直模式还是水平模式
+
+    `window.orientation`，0 表示垂直模式，90 表示左转水平模式（主屏幕键在右侧），–90 表示右转水平模式（主屏幕键在左）。
+
+  - `deviceorientation`：反映设备在空间中的朝向变化
+
+- 触摸及手势事件
+- 模拟及自定义事件
+
+### 8.5 事件委托
+
+事件委托利用事件冒泡，可以只使用一个事件处理程序来管理一种类型的事件。
+
+```html
+<ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <p>324</p>
+  </ul>
+  <script>
+    //点击每个li 当前li文字变成红色
+    //按照事件委托的方式
+    //1、获取父元素
+    const ul = document.querySelector('ul')
+    ul.addEventListener('click', function (e) {
+      // alert(11)
+      // this.style.color = 'red'
+      // console.log(e.target)//就是我们点击的对象
+      // e.target.style.color = 'red'
+      //需求：只要点击li才会有效果
+      if (e.target.tagName === 'LI') {
+        e.target.style.color = 'red'
+      }
+    })
+  </script>
+```
+
 ## 九、客户端存储
+
+### 9.1 cookie
+
+### 9.2 web storage
+
+## 十、网络请求与远程资源
+
+## 十一、错误处理与调试 
+
+## 十二、正则表达式
