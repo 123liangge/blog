@@ -626,7 +626,7 @@ switch (i) {
 
 ### 7.1 基本概念
 
-**Dom：**文档对象模型（DOM，Document Object Model）是 HTML 和 XML 文档的编程接口。DOM是浏览器提供的一套专门用来 操作网页内容 的功能。
+**Dom**：文档对象模型（DOM，Document Object Model）是 HTML 和 XML 文档的编程接口。DOM是浏览器提供的一套专门用来 操作网页内容 的功能。
 
 ### 7.2 Dom节点
 
@@ -839,6 +839,121 @@ switch (i) {
    ```
 
 ### 7.3 Dom操作
+
+1. 获取DOM对象
+
+   - 根据CSS选择器来获取DOM元素
+
+     - `document.querySelector('css选择器')`：页面首次出现的单个元素对象，
+
+     - 提示：在 Document 上使用 querySelector()方法时，会从文档元素开始搜索；在 Element 上使用
+
+       querySelector()方法时，则只会从当前元素的后代中查询。
+
+     - `document.querySelectorAll('css选择器')`：页面出现所有元素集合（nodeList）;参数可用逗号隔开
+
+   - 其他获取DOM元素方法
+
+     - `document.getElementById('id')`；通过id名获取单个元素
+
+     - `document.getElementsByTagName('标签名')`；通过标签名找元素，获得集合
+     - `document.getElementsByClassName('类名')`；通过类名找元素，获得集合
+     - `document.getElementsByName()`;方法返回拥有指定名称的元素集合
+
+   - 获取特殊元素
+
+     - `document.body`；获取body
+
+     - `document.documentElement` ；获取HTML
+
+2. 操作元素内容
+
+   - `Element.innerText ='值'`：将文本内容添加/更新到任意标签位置，显示纯文本，不解析标签
+   - `Element.innerHTML='值'`：将文本内容添加/更新到任意标签位置，会解析标签，多标签建议使用模板字符
+   - `Element.textContent='值'`：修改元素文本内容
+   - 提示：表单不可用
+
+3. 操作元素属性
+
+   - 操作元素常用属性
+
+     - 最常见的属性比如： href、title、src 等；语法：Element.属性=值
+
+   - 操作元素样式属性
+
+     - 通过 style 属性操作CSS
+
+       - 语法：`Element.style.样式属性='值'`
+
+       - 生成行内样式表，权重比较高
+
+       - 如果属性有-连接符，需要转换为小驼峰命名法
+
+     - 操作类名(className) 操作CSS
+
+       - 语法：`Element.className='css类名'`
+       - className是使用新值换旧值
+
+     - 通过 classList 操作类控制CSS
+
+       - `Element.classList.add('类名')`；追加一个类
+
+       - `Element.classList.remove('类名')`；删除一个类
+
+       - `Element.classList.toggle('类名')`；切换一个类
+
+       - `Element.classList.contains('类名')`；包含类，常用于事件委托/判断
+
+       - 类名不用加.
+
+     - `getComputedStyle(元素,null)`：获取所有样式，返回对象，仅支持读并不支持写入
+
+   - 操作表单元素属性
+
+     - 表单很多情况，也需要修改属性，比如点击眼睛，可以看到密码，本质是把表单类型转换为文本框，正常的有属性有取值的 跟其他的标签属性没有任何区别
+
+     - 表单属性中添加就有效果,移除就没有效果,一律使用布尔值表示 如果为true 代表添加了该属性 如果是false 代表移除了该属性，比如： disabled（禁用）、checked、selected；eg：`btn.disabled=true`
+
+   - 操作自定义属性
+
+     在html5中推出来了专门的data-自定义属性：`<div data-id="123"></div>`，在标签上一律以data-开头
+
+     在DOM对象上一律以dataset对象方式获取：`console.log(document.querySelector("div").dataset.id)//123`
+
+4. 获取元素尺寸与位置
+
+   - 偏移尺寸
+
+     ![](./images/03-6.png)
+
+     - `offsetHeight`，元素在垂直方向上占用的像素尺寸，包括它的高度、水平滚动条高度（如果可见）和上、下边框的高度。
+     - `offsetWidth`，元素在水平方向上占用的像素尺寸，包括它的宽度、垂直滚动条宽度（如果可见）和左、右边框的宽度。
+     - `offsetTop`，元素上边框外侧距离包含元素上边框内侧的像素数。
+     - `offsetLeft`，元素左边框外侧距离包含元素左边框内侧的像素数。
+     - 注意：offsetLeft 和 offsetTop 是相对于包含元素的，包含元素保存在 offsetParent 属性中。
+
+   - 客户端尺寸
+
+     ![](./images/03-7.png)
+
+     客户端尺寸实际上就是元素内部的空间，因此不包含**滚动条**占用的空间。这两个属性最常用于确定浏览器视口尺寸，即检测 `document.documentElement` 的 `clientWidth` 和 `clientHeight`。这两个属性表示视口（`<html>`或`<body>`元素）的尺寸。
+
+   - 滚动尺寸
+
+     ![](./images/03-8.png)
+
+     有些元素，比如`<html>`无须任何代码就可以自动滚动，而其他元素则需要使用 CSS 的 overflow 属性令其滚动。滚动尺寸相关的属性有如下 4 个。
+
+     - `scrollHeight`，只读，没有滚动条出现时，元素内容的总高度。
+     - `scrollWidth`，只读，没有滚动条出现时，元素内容的总宽度。
+     - `scrollLeft`，可写，内容区左侧隐藏的像素数，设置这个属性可以改变元素的滚动位置。
+     - `scrollTop`，可写，内容区顶部隐藏的像素数，设置这个属性可以改变元素的滚动位置。
+
+   - 确定元素尺寸
+
+     ![](./images/03-9.png)
+
+     浏览器在每个元素上都暴露了 `getBoundingClientRect()`方法，返回一个 DOMRect 对象（只读），包含6 个属性：left、top、right、bottom、height 和 width。这些属性给出了元素在页面中相对于视口的位置。
 
 ## 八、事件
 
