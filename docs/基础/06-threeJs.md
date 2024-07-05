@@ -193,6 +193,73 @@ window.addEventListener("dblclick", () => {
 
 ① 调试器 -gui：可以快速创建控制三维场景的UI交互界面，[详见](https://lil-gui.georgealways.com)
 
-② 编辑器
+② 编辑器 https://threejs.org/editor/
 
-## 四、几何体
+## 四、物体
+
+### 4.1 创建几何体
+
+**缓冲类型几何体`BufferGeometry`**：矩形平面`PlaneGeometry`、长方体`BoxGeometry`、球体`SphereGeometry`都是基于[BufferGeometry (opens new window)](https://threejs.org/docs/index.html?q=BufferGeometry#api/zh/core/BufferGeometry)类构建的。
+
+1. 创建一个空的几何体
+
+   ```js
+   const geometry = new THREE.BufferGeometry()
+   ```
+
+2. 创建几何体顶点并设置顶点属性
+
+   ```js
+   // 创建顶点数据32位浮点数数组,tips:顶点是有顺序的，逆时针为正面
+   const vertices = new Float32Array([
+     -1.0,-1.0,0.0, // 第一个点的xyz轴位置
+     1.0,-1.0,0.0, // 第二个点的xyz轴位置
+     1.0,1.0,0.0, // 第三个点的xyz轴位置
+     -1.0,1.0,0.0 // 第四个点的xyz轴位置
+   ])
+   // 设置顶点属性
+   geometry.attributes.position = new THREE.BufferAttribute(vertices, 3)
+   ```
+
+3. 创建索引(顶点位置)数组--用于顶点复用(合并)
+
+   ```js
+   const indices = new Uint16Array([0, 1, 2, 2, 3, 0])
+   geometry.setIndex(new THREE.BufferAttribute(indices, 1))
+   ```
+
+### 4.2 模型渲染
+
+- 点模型
+
+  ```js
+  const pointsMaterial = new THREE.PointsMaterial({
+    color: 0xffff00,
+    size: 0.1, //点对象像素尺寸
+  })
+  const points = new THREE.Points(geometry, pointsMaterial) //点模型对象
+  ```
+
+- 线模型
+
+  ```js
+  const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00 }) //线模型材质
+  const line = new THREE.Line(geometry, lineMaterial) //线模型对象
+  // const line = new THREE.LineLoop(geometry, lineMaterial) // 闭合线条
+  // const line = new THREE.LineSegments(geometry, lineMaterial)// 非连续的线条
+  ```
+
+- 网格模型
+
+  ```js
+  const meshMaterial = new THREE.MeshBasicMaterial({
+    color: 0x00ff00,
+    // side: THREE.FrontSide, //默认只有正面可见
+    side: THREE.DoubleSide, // 双面显示
+    // side: THREE.BackSide, //设置只有背面可见
+    wireframe: true, // 线框模式
+  })
+  const mesh = new THREE.Mesh(geometry, meshMaterial)
+  ```
+
+### [4.3 常见几何体](https://threejs.org/docs/index.html#api/zh/geometries/BoxGeometry)
