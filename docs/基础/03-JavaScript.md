@@ -620,6 +620,29 @@ switch (i) {
 
 ## 五、期约与异步函数
 
+### 5.1 期约Promises
+
+Promise对象用于表示一个异步操作的最终完成（或失败）及其结果值。
+
+Promise的三种状态：
+
+- 待定（pending） ：初始状态，既没有被兑现，也没有被拒绝
+- 已兑现（fulfilled） ：意味着，操作成功完成
+- 已拒绝（rejected） ：意味着，操作失败
+
+Promise 链式调用：then()、catch()和 finally()
+
+Promise.all 静态方法：Promise.all([promise,...])
+
+### 5.2 异步函数async/await
+
+```js
+// 睡眠函数
+function sleep(delay) { 
+ return new Promise((resolve) => setTimeout(resolve, delay)); 
+}
+```
+
 ## 六、BOM
 
 BOM(Browser Object Model浏览器对象模型)。
@@ -1236,6 +1259,12 @@ localStorage 数据不受页面刷新影响，也不会因关闭窗口、标签�
 json转对象：`JSON.parse(json)`
 
 ## 十、网络请求与远程资源
+
+### 10.1 XMLHttpRequest 
+
+### 10.2 进度事件
+
+### 10.3 Web Socket 
 
 ## 十一、错误处理与调试 
 
