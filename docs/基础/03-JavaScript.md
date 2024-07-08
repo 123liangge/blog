@@ -1239,4 +1239,73 @@ json转对象：`JSON.parse(json)`
 
 ## 十一、错误处理与调试 
 
+### 11.1 错误处理
+
+```js
+      try {
+        //可能发生错误的代码   写到try里面
+        const p = document.querySelector('p')
+        p.style.color = 'red'
+      } catch (err) {
+        //拦截错误，提示浏览器提供的错误信息，但不中断程序的执行
+        console.log(err.message)
+        // 手动抛出错误
+        throw new Error('选择器错误')
+        //需要加return 中断程序
+        // return
+      }finally{
+        //不管你程序对不对，一定会执行的代码
+        alert('弹出对话窗')
+      }
+```
+
+### 11.2 错误类型
+
+- `Error`：基类型
+
+- `InternalError`：在底层 JavaScript 引擎抛出异常时由浏览器抛出如，递归过多导致了栈溢出。
+
+- `EvalError`：在使用 eval()函数发生异常时抛出。
+
+- `RangeError`：数值越界时抛出。
+
+- `ReferenceError`：访问不存在的变量而导致
+
+- `SyntaxError`：常在给 eval()传入的字符串包含 JavaScript 语法错误时发生
+
+- `TypeError`：在使用类型特定的操作而变量类型不对
+
+- `URIError`：使用 encodeURI()或 decodeURI()但传入了格式错误的URI
+
+  ```js
+  try { 
+   someFunction(); 
+  } catch (error){ 
+   if (error instanceof TypeError){
+   // 处理类型错误
+   } else if (error instanceof ReferenceError){ 
+   // 处理引用错误
+   } else { 
+   // 处理所有其他类型的错误
+   } 
+  }
+  ```
+
+### 11.3 抛出错误
+
+使用 throw 操作符时，代码立即停止执行，除非 try/catch 语句捕获了抛出的值。
+
+### 11.3 错误调试
+
+1、通过 console 对象直接把 JavaScript 消息写入控制台
+
+- `error(*message*)`：在控制台中记录错误消息
+- `info(*message*)`：在控制台中记录信息性内容
+- `log(*message*)`：在控制台记录常规消息
+- `warn(*message*)`：在控制台中记录警告消息
+
+2、debugger
+
+在运行时碰到这个关键字时，所有主流浏览器都会打开开发者工具面板，并在指定位置显示断点。然后，可以通过单独的浏览器控制台在断点所在的特定词法作用域中执行代码。此外，还可以执行标准的代码调试器操作（单步进入、单步跳过、继续，等等）。
+
 ## 十二、正则表达式
