@@ -1206,7 +1206,30 @@ btn.onclick = function(event) {
 
 ### 9.1 cookie
 
+​    概念：是浏览器端存储的缓存数据，大小一般在 4k 左右，只能是字符串，是浏览器的用户信息的追踪机制，在响应HTTP 请求时，通过发送 Set-Cookie HTTP 头部包含会话信息。
+
+存储形式："key=value"
+
+获取及修改：`document.cookie`
+
+设置 cookie 的有效时间：`document.cookie = "key=value；max-age=n"（n为秒）`
+
 ### 9.2 web storage
+
+Storage 类型用于保存名/值对数据，容量较大，sessionStorage和localStorage约 5M 左右。
+
+方法：
+
+- 清空数据：`clear()`
+- 获取数据：`getItem(key)`
+- 存储数据：`setItem(key, value)`
+- 删除数据：`removeItem(key)`
+
+### 9.3 JSON
+
+对象类型转json：`JSON.stringify(obj)`
+
+json转对象：`JSON.parse(json)`
 
 ## 十、网络请求与远程资源
 
