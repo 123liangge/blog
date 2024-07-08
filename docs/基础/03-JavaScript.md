@@ -1225,6 +1225,10 @@ Storage 类型用于保存名/值对数据，容量较大，sessionStorage和loc
 - 存储数据：`setItem(key, value)`
 - 删除数据：`removeItem(key)`
 
+sessionStorage 对象只存储会话数据，这意味着数据只会存储到浏览器关闭， 在同一个窗口(页面)下数据可以共享。
+
+localStorage 数据不受页面刷新影响，也不会因关闭窗口、标签页或重新启动浏览器而丢失。
+
 ### 9.3 JSON
 
 对象类型转json：`JSON.stringify(obj)`
