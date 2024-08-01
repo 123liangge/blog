@@ -25,7 +25,7 @@ features:
   - title: 对生活充满激情
     details: 生活可以拮据，理想一定要烂漫。
   - title: 唯物辩证主义
-    details: 一切事物一定是辩证的！
+    details: 事物一定是辩证的！
 ---
 
 <style>
