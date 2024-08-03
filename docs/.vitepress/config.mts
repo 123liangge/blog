@@ -38,7 +38,8 @@ export default defineConfig({
           { text: "渐变颜色按钮", link: "https://gradientbuttons.colorion.co/" },
           { text: "CSS 文本发光生成器", link: "http://cssbud.com/css-generator/css-text-glow-generator/" },
           { text: "元标签生成器", link: "https://webcode.tools/generators/meta-tags" },
-          { text: "Css功能生成器", link: "https://www.cssportal.com/css-ribbon-generator/" }
+          { text: "Css功能生成器", link: "https://www.cssportal.com/css-ribbon-generator/" },
+          { text: "Css三角形", link: "https://www.dute.org/css-arrow" }
         ]
       }
     ],
