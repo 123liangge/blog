@@ -26,6 +26,7 @@ export default defineConfig({
         items: [
           { text: "favicon图标制作", link: "https://www.bitbug.net/" },
           { text: "正则表达式验证", link: "http://www.jsons.cn/reg/" },
+          { text: "gsap动画库", link: "https://gsap.com/" },
           { text: "新拟态设计", link: "https://neumorphism.io/#e0e0e0" },
           { text: "透明玻璃态生成器", link: "https://hype4.academy/tools/glassmorphism-generator" },
           { text: "波浪效果CSS生成器", link: "https://getwaves.io/" },
@@ -37,7 +38,7 @@ export default defineConfig({
           { text: "渐变颜色按钮", link: "https://gradientbuttons.colorion.co/" },
           { text: "CSS 文本发光生成器", link: "http://cssbud.com/css-generator/css-text-glow-generator/" },
           { text: "元标签生成器", link: "https://webcode.tools/generators/meta-tags" },
-          { text: "Css功能生成器", link: "cssportal.com/css-ribbon-generator/" }
+          { text: "Css功能生成器", link: "https://www.cssportal.com/css-ribbon-generator/" }
         ]
       }
     ],

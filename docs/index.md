@@ -20,12 +20,12 @@ hero:
       link: /进阶/需求实现
 
 features:
-  - title: 专注内容
-    details: 只需 Markdown 即可轻松创建美观的文档站点。
-  - title: 享受 Vite 无可比拟的体验
-    details: 服务器即时启动，闪电般的热更新，还可以使用基于 Vite 生态的插件。
-  - title: 使用 Vue 自定义
-    details: 直接在 Markdown 中使用 Vue 语法和组件，或者使用 Vue 组件构建自定义主题。
+  - title: 热爱自由
+    details: 自由就是做自己喜欢的事情。
+  - title: 对生活充满激情
+    details: 生活可以拮据，理想一定要烂漫。
+  - title: 唯物辩证主义
+    details: 一切事物一定是辩证的！
 ---
 
 <style>

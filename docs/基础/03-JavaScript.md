@@ -620,6 +620,29 @@ switch (i) {
 
 ## 五、期约与异步函数
 
+### 5.1 期约Promises
+
+Promise对象用于表示一个异步操作的最终完成（或失败）及其结果值。
+
+Promise的三种状态：
+
+- 待定（pending） ：初始状态，既没有被兑现，也没有被拒绝
+- 已兑现（fulfilled） ：意味着，操作成功完成
+- 已拒绝（rejected） ：意味着，操作失败
+
+Promise 链式调用：then()、catch()和 finally()
+
+Promise.all 静态方法：Promise.all([promise,...])
+
+### 5.2 异步函数async/await
+
+```js
+// 睡眠函数
+function sleep(delay) { 
+ return new Promise((resolve) => setTimeout(resolve, delay)); 
+}
+```
+
 ## 六、BOM
 
 BOM(Browser Object Model浏览器对象模型)。
@@ -1206,10 +1229,166 @@ btn.onclick = function(event) {
 
 ### 9.1 cookie
 
+​    概念：是浏览器端存储的缓存数据，大小一般在 4k 左右，只能是字符串，是浏览器的用户信息的追踪机制，在响应HTTP 请求时，通过发送 Set-Cookie HTTP 头部包含会话信息。
+
+存储形式："key=value"
+
+获取及修改：`document.cookie`
+
+设置 cookie 的有效时间：`document.cookie = "key=value；max-age=n"（n为秒）`
+
 ### 9.2 web storage
+
+Storage 类型用于保存名/值对数据，容量较大，sessionStorage和localStorage约 5M 左右。
+
+方法：
+
+- 清空数据：`clear()`
+- 获取数据：`getItem(key)`
+- 存储数据：`setItem(key, value)`
+- 删除数据：`removeItem(key)`
+
+sessionStorage 对象只存储会话数据，这意味着数据只会存储到浏览器关闭， 在同一个窗口(页面)下数据可以共享。
+
+localStorage 数据不受页面刷新影响，也不会因关闭窗口、标签页或重新启动浏览器而丢失。
+
+### 9.3 JSON
+
+对象类型转json：`JSON.stringify(obj)`
+
+json转对象：`JSON.parse(json)`
 
 ## 十、网络请求与远程资源
 
+### 10.1 XMLHttpRequest 
+
+### 10.2 进度事件
+
+### 10.3 Web Socket 
+
 ## 十一、错误处理与调试 
 
+### 11.1 错误处理
+
+```js
+      try {
+        //可能发生错误的代码   写到try里面
+        const p = document.querySelector('p')
+        p.style.color = 'red'
+      } catch (err) {
+        //拦截错误，提示浏览器提供的错误信息，但不中断程序的执行
+        console.log(err.message)
+        // 手动抛出错误
+        throw new Error('选择器错误')
+        //需要加return 中断程序
+        // return
+      }finally{
+        //不管你程序对不对，一定会执行的代码
+        alert('弹出对话窗')
+      }
+```
+
+### 11.2 错误类型
+
+- `Error`：基类型
+
+- `InternalError`：在底层 JavaScript 引擎抛出异常时由浏览器抛出如，递归过多导致了栈溢出。
+
+- `EvalError`：在使用 eval()函数发生异常时抛出。
+
+- `RangeError`：数值越界时抛出。
+
+- `ReferenceError`：访问不存在的变量而导致
+
+- `SyntaxError`：常在给 eval()传入的字符串包含 JavaScript 语法错误时发生
+
+- `TypeError`：在使用类型特定的操作而变量类型不对
+
+- `URIError`：使用 encodeURI()或 decodeURI()但传入了格式错误的URI
+
+  ```js
+  try { 
+   someFunction(); 
+  } catch (error){ 
+   if (error instanceof TypeError){
+   // 处理类型错误
+   } else if (error instanceof ReferenceError){ 
+   // 处理引用错误
+   } else { 
+   // 处理所有其他类型的错误
+   } 
+  }
+  ```
+
+### 11.3 抛出错误
+
+使用 throw 操作符时，代码立即停止执行，除非 try/catch 语句捕获了抛出的值。
+
+### 11.3 错误调试
+
+1、通过 console 对象直接把 JavaScript 消息写入控制台
+
+- `error(*message*)`：在控制台中记录错误消息
+- `info(*message*)`：在控制台中记录信息性内容
+- `log(*message*)`：在控制台记录常规消息
+- `warn(*message*)`：在控制台中记录警告消息
+
+2、debugger
+
+在运行时碰到这个关键字时，所有主流浏览器都会打开开发者工具面板，并在指定位置显示断点。然后，可以通过单独的浏览器控制台在断点所在的特定词法作用域中执行代码。此外，还可以执行标准的代码调试器操作（单步进入、单步跳过、继续，等等）。
+
 ## 十二、正则表达式
+
+语法：
+
+- 定义REG：`const reg = /表达式/` 或 `let reg = new RegExp(pattern,modifiers)`;pattern表达式，modifiers修饰符；
+- `reg.test(字符串)` 方法 用来查看正则表达式与指定的字符串是否匹配，返回true或false
+- `reg.exec(字符串)` 方法 在一个指定字符串中执行一个搜索匹配，如果匹配成功，exec() 方法返回一个数组，否则返回null
+- `字符串.match(正则或字符串)`；返回匹配数组或null
+- `字符串.replace(/正则表达式/,'替换文本'/或函数)`，函数：`（匹配的字符串，下标）=>{}`
+
+**元字符**：
+
+- 边界符
+  - `^`：表示匹配行首的文本（以谁开始）
+  - `$`：表示匹配行尾的文本（以谁结束)
+  - 如果 ^ 和 $ 在一起，表示必须是精确匹配。
+- 限定符
+  - `*`：重复零次或更多次
+  - `+`：重复一次或更多次
+  - `？`：重复零次或一次
+  - `{n}`：重复n次
+  - `{n，}`：重复n次或更多次
+  - `{n，m}`：重复n到m次，>=n && <= m
+- 字符类
+  - `[ ]` 里面加上 - 连字符，表示一个范围，`[abc].test(字符串)`后面的字符串只要包含 abc 中任意一个字符，都返回 true 。
+  - `[ ]` 里面加上 ^ 取反符号，`[^a-z]` 匹配除了小写字母以外的字符
+  - `.` 匹配除换行符之外的任何单个字符，匹配点需转译\.
+  - `[\u4e00-\u9fa5]`：匹配汉字
+- 分组
+  - `|` 或的意思
+  - `$n`,代表分组序号
+- 预定义
+  - `\d`，匹配0-9之间的任一数字，相当于`[0-9]`
+  - `\w`，匹配任意的字母、数字和下划线，相当于`[A-Za-z0-9_]`
+  - `\s`，匹配空格(包括换行符、制表符、空格符等)，相等于`[\t\r\n\w\f]`
+  - `\n`，匹配换行符
+  - `\D`，匹配所有0-9以外的字符，相当于 `[^0-9]`
+  - `\W`，除所有字母、数字和下划线以外的字符，相当于 `[^A-Za-z0-9 ]`
+  - `\S`，匹配非空格的字符，相当于`[^\t\r\n\w\f`]
+
+**修饰符**：
+
+- 语法：/表达式/修饰符
+- i ： ignore 的缩写，正则匹配时字母不区分大小写
+- g ： global 的缩写，匹配所有满足正则表达式的结果
+- m：执行多行文本
+
+常用正则表达式：
+
+- `const reg =  /^\w[3,16]$/`：验证用户名
+- `const reg =  /^\w[6,12]$/`：验证密码
+- `const reg = /^\w+@\w+(\.[a-z]{2,3}){1,2}$/`：验证邮箱
+- `const reg = /^1[3-9]\d{9}$/`：验证手机号
+- `const reg =/^(?<y>\d{4})-(?<m>\d{2})-(?<d>\d{2})$/`：验证生日
+- `/^([\u4e00-\u9fa5]|\w|[@!#$%&*])+$/`
