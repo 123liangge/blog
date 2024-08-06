@@ -50,6 +50,7 @@ export default defineConfig({
             { text: "HTML", link: "/基础/01-html" },
             { text: "CSS", link: "/基础/02-css" },
             { text: "JavaScript", link: "/基础/03-JavaScript" },
+            { text: "Java", link: "/基础/08-java" },
             { text: "jQuery", link: "/基础/04-jQuery" },
             { text: "Git", link: "/基础/07-git" },
             { text: "Echarts", link: "/基础/05-echarts" },
