@@ -37,5 +37,11 @@
    - `Ctrl + /` ：单行注释
    - `Ctrl + Shift + /`：多行注释
 
+7. Hello World
+
+   1. 启动 IntelliJ IDEA，创建新项目（project）。
+   2. 依次创建模块（module）→ 包（package） → 类（class）
+   3. 编写代码，并运行
+
 ## 二、基础语法
 

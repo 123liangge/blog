@@ -218,6 +218,7 @@
 
      - `arr[index]`：使用下标取出值
      - `Array.from()`：将集合转成数组，静态方法
+     - `arr.length = 0`：清空数组
 
 3. Map
 
@@ -617,6 +618,56 @@ switch (i) {
   
   //apply()所执行的操作：1.执行Math.max(1,2,3,5,4) 2.把内部的this改成arr
   ```
+
+### 4.5 防抖与节流
+
+- 防抖
+
+  概念：某一段时间内只执行一次
+
+  场景：搜索联想，用户在不断输入值时，用防抖来节约请求资源；window触发resize的时候，不断的调整浏览器窗口大小会不断的触发这个事件，用防抖来让其只触发一次。
+
+  ```js
+  // 防抖
+      // fn 需要防抖的函数，delay 为定时器时间
+      function debounce(fn,delay){
+          let timer =  null  // 用于保存定时器
+          return function () { 
+              // 如果timer存在 就清除定时器，重新计时
+              if(timer){
+                  clearTimeout(timeout);
+              }
+              //设置定时器，规定时间后执行真实要执行的函数
+              timeout = setTimeout(() => {
+                 fn.apply(this);
+              }, delay);
+          }
+      }
+  ```
+
+- 节流
+
+  概念：间隔时间执行
+
+  场景：鼠标不断点击触发，mousedown(单位时间内只触发一次)；监听滚动事件，比如是否滑到底部自动加载更多。
+
+  ```js
+   // 节流
+      function throttle(fn) {
+        let timer = null; // 首先设定一个变量，没有执行定时器时,默认为 null
+        return function () {
+          if (timer) return; // 当定时器没有执行的时候timer永远是false,后面无需执行
+          timer = setTimeout(() => {
+            fn.apply(this, arguments);
+             // 最后在setTimeout执行完毕后再把标记设置为true(关键)
+             // 表示可以执行下一次循环了。
+            timer = null;
+          }, 1000);
+        };
+      }
+  ```
+
+注意：传入this是为了保证fn中this的正确指向，arguments 是透传给fn的参数
 
 ## 五、期约与异步函数
 
