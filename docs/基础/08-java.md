@@ -255,12 +255,6 @@ eg：int age = 18；
 
    - 数组反转
 
-     
-
-```java
-/* 一、字符串型 */
-	String j = "Hello World";
-```
 
 ### 2.3 语句
 
@@ -470,3 +464,438 @@ public class Test {
 应用场景：处理一类业务，提供多种方案
 
 ## 三、面向对象
+
+### 3.1 OOP概述
+
+面向对象编程（Object-Oriented Programming，OOP）是一种程序设计方法，其核心思想是将问题抽象为由若干个对象，通过这些对象之间的调用、配合及协调，共同完成当前的问题。
+
+面向对象的三大基本特征：封装、继承和多态。
+
+面向对象的五大基本原则：单一职责原则、开放封闭原则、里氏替换原则、接口隔离原则、依赖反转原则。
+
+对象在计算机中的执行原理
+
+### 3.2 构造器与this
+
+构造器：
+
+- 构造器名和类名相同，没有返回值
+- 调用构造方法，必须用 `new` 操作符，常用于完成对象初始化
+- 如果不写构造器，Java会为类自动生成一个无参构造器
+- 一旦定义了有参构造器，Java就不会帮我们的类生成无参构造器了，建议自己手写一个无参构造器
+
+this关键字：this指向当前对象
+
+```java
+// 定义Student类
+public class Student {
+    String name;
+    double chinese;
+    double math;
+    // 构造器
+    public Student() {
+        System.out.println("无参数构造器触发执行");
+    }
+    // 有参数构造器
+    public Student(String name,double chinese,double math) {
+        this.name = name;
+        this.chinese=chinese;
+        this.math=math;
+        System.out.println("有参数构造器触发执行");
+    }
+}
+// 测试
+public class Test {
+    public static void main(String[] args) {
+        Student s1 = new Student(); // 无参数构造器触发执行
+        Student s2 = new Student("张三",99,100); // 有参数构造器触发执行
+    }
+}
+```
+
+### 3.3 封装 & JavaBean
+
+封装是面向对象编程的基本原则之一，它指的是将数据和操作数据的方法封装在一个单元内，即一个类中。封装通过访问控制修饰符（如private、protected、public）来限制对类的成员的访问。
+
+实体类：只负责数据存取，而对数据的处理交给其他类来完成，以实现数据和数据业务处理相分离；成员变量必须私有，且要为他们提供get、set方法；必须有无参数构造器。
+
+封装实体类：
+
+```java
+public class Student {
+    // private 隐藏成员 public 公开成员
+
+    /* 1、必须私有成员 */
+    private String name;
+    private double score;
+
+    /* 2、为每个成员变量提供get、set方法 */
+    // 快捷键：右键菜单 → 生成 → Getter和Setter → shift键多选
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    /* 3、必须为类提供一个公开的无参数构造器 */
+    // 快捷键：右键菜单 → 生成 → 构造函数 → → shift键多选
+    public Student() {
+    }
+    public Student(String name, double score) {
+        this.name = name;
+        this.score = score;
+    }
+    
+}
+```
+
+封装操作类：
+
+```java
+public class StudentOperator {
+    private Student student;
+    public StudentOperator(Student student) {
+        this.student = student;
+    }
+
+    public void printPass() {
+        if (student.getScore() >= 60) {
+            System.out.println(student.getName() + "学生成绩及格");
+        } else {
+            System.out.println(student.getName() + "学生成绩不及格");
+        }
+    }
+}
+```
+
+实体类与操作类使用：
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        // 实体类保存数据
+        Student s1 = new Student("张三", 59);
+        // 操作类处理业务需求
+        StudentOperator operator = new StudentOperator(s1);
+        operator.printPass();
+    }
+}
+```
+
+### 3.4 static
+
+静态，可修饰成员变量、方法。
+
+成员变量按照有无static修饰，分为两种
+
+- 类变量：有static修饰，类所持有且唯一，可被对象访问
+- 实例变量：无static修饰，对象所持有，只能由对象访问
+
+```java
+public class Student {
+    // 类变量
+    static String name;
+    // 实例变量
+    int age;
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Student s1=new Student();
+        Student s2=new Student();
+        // 类变量的访问---通过类名访问
+        Student.name="张三";
+        // s1.name 不推荐
+        // s2.name 不推荐
+    }
+}
+```
+
+类变量的应用场景：数据只需要一份，且需要被共享时（访问，修改）。
+
+Tip：在同一个类中访问类变量，可省略类名不写。
+
+修饰成员方法与变量类似。
+
+工具类：如果一个类中的方法全都是静态的，那么这个类中的方法就全都可以被类名直接调用，由于调用起来非常方便，就像一个工具一下，所以把这样的类就叫做工具类。推荐用类名调用为了防止使用者用对象调用。我们可以把工具类的构造方法私有化。
+
+注意：
+
+- 类方法可以直接访问类的成员，不可以访问实例成员
+- 实例方法中可以访问类成员
+- 类方法不可出现this
+
+代码块：代码块是类的五大成分之一（成员变量、构造器、方法、代码块、内部类）
+
+- 静态代码块
+
+  格式：`static { }`
+
+  特点：随着类的加载而执行，而且只执行一次
+
+  作用：完成对象的初始化，类变量初始化，类似构造器
+
+- 实例代码块
+
+  格式：`{ }`
+
+  特点：每次创建对象之前会执行实例代码块且在构造器之前
+
+  作用：完成对象的初始化类，实例变量初始化，似构造器
+
+单例设计模式：确保一个类只有一个对象。
+
+写法：
+
+- ```java
+  // 饿汉式单例：拿到对象时，对象已经创建好了
+  public class A {
+      // 1、构造器私有化
+      private A(){}
+  
+      // 2、定义一个类变量存储类的一个对象
+      private static A a = new A();
+  
+      // 3、定义一个类方法，返回对象
+      public static A getInstance(){
+          return a;
+      }
+  }
+  // 懒汉式单例：拿对象时，才开始创建对象
+  public class A {
+      // 1、构造器私有化
+      private A(){}
+  
+      // 2、定义一个类变量存储类的一个对象
+      private static A a;
+  
+      // 3、定义一个类方法，这个方法要保证第一次调用时才创建一个对象，后面调用时都会用这同一个对象返回
+      public static A getInstance() {
+          if (a == null) {
+              a = new A();
+          }
+          return a;
+      }
+  }
+  ```
+
+### 3.5 继承
+
+概述
+
+- 通过extends关键字，建立类与类的父子关系
+- 子类可以继承父类私有成员
+- 子类对象由子、父类共同完成
+- Java语言只支持单继承，不支持多继承，但是可以多层继承
+- Java默认直接或间接继承Object类（祖宗类）
+
+权限修饰符：用来限制类中的成员能够被访问的范围
+
+|  修饰符   | 在本类中 | 同一个包下的其他类里 | 任意包下的子类里 | 任意包下的任意类里 |
+| :-------: | :------: | :------------------: | :--------------: | :----------------: |
+|  private  |    ✔     |                      |                  |                    |
+|   缺省    |    ✔     |          ✔           |                  |                    |
+| protected |    ✔     |          ✔           |        ✔         |         ✔          |
+|  public   |    ✔     |          ✔           |        ✔         |         ✔          |
+
+方法重写：
+
+### 3.6 多态
+
+## 四、常用API
+
+## 4.1 包
+
+包是用来分门别类的管理各种不同程序的，类似于文件夹，建包有利于程序的管理和维护。
+
+建包的语法格式：
+
+```java
+package com.demo.oop;
+public class Test {
+}
+```
+
+在自己程序中调用其他包下的程序的注意事项：
+
+- 同一个包下的类，互相可以直接调用；
+- 如果当前程序中，要调用其他包下的程序，则必须在当前程序中导包, 才可以访问！导包格式：`import 包名.类名`;
+- 如果当前程序中，要调用Java提供的程序，也需要先导包才可以使用；但是Java.lang包下的程序是不需要我们导包的，可以直接使用；
+- 如果当前程序中，要调用多个不同包下的程序，而这些程序名正好一样，此时默认只能导入一个程序，另一个程序必须带包名访问。
+
+```java
+package com.itheima.pkg;
+import com.itheima.pkg.itcast.Demo1;
+import com.itheima.pkg.itheima.Demo2;
+import java.util.Random;
+import java.util.Scanner;
+
+public class Test {
+    public static void main(String[] args) {
+        // 1、同一个包下的程序，可以直接访问。
+        Demo d = new Demo();
+        d.print();
+
+        // 2、访问其他包下的程序，必须导包才可以访问。
+        Demo1 d2 = new Demo1();
+        d2.print();
+
+        // 3、自己的程序中调用Java提供的程序，也需要先导包才可以使用；注意：Java.lang包下的程序是不需要我们导包的，可以直接使用。
+        Scanner sc = new Scanner(System.in);
+        String s = "黑马";
+        Random r = new Random();
+
+        // 4、访问多个其他包下的程序，这些程序名又一样的情况下，默认只能导入一个程序，另一个程序必须带包名和类名来访问。
+        Demo2 d3 = new Demo2();
+        d3.print();
+
+        com.itheima.pkg.itcast.Demo2 d4 = new com.itheima.pkg.itcast.Demo2();
+        d4.print();
+    }
+}
+```
+
+## 4.2 String
+
+### 4.2.1 创建
+
+```java
+// 1、直接字面量创建
+String str1 = "Hello World";
+        
+// 2、new String创建字符串对象，并调用构造器初始化字符串
+String str2 = new String(); // ""
+
+String str3 = new String("Hello World");
+
+char[] charArr = {'h', 'e', 'l', 'l', 'o'};
+String str4 = new String(charArr);
+
+byte[] byteArr = {1, 2, 3, 4, 5};
+String str5 = new String(byteArr);
+```
+
+### 4.2.2 常用方法
+
+```java
+String str = "Hello World";
+// 1、length()
+// 获取字符串的长度
+int s1 = str.length(); // 10
+
+// 2、charAt(int index)
+// 获取某个索引位置处的字符
+char s2 = str.charAt(0); // H
+
+// 3、toCharArray()
+// 将当前字符串转换成字符数组返回
+char[] s3 = str.toCharArray();
+
+// 4、equals(Object anObject)
+// 判断当前字符串与另一个字符串的内容一样，一样返回true
+String s4 = new String("hello");
+String s5 = new String("hello");
+Boolean flag1 = s4 == s5; // false
+Boolean flag2 = s4.equals(s5); // true
+
+// 5、equalsIgnoreCase(String anotherString)
+// 忽略大小写比较字符串类容
+String s6 = "hello";
+String s7 = "Hello";
+Boolean flag3 = s6.equalsIgnoreCase(s7); // true
+
+// 6、substring(int beginIndex, int endIndex)
+// 根据开始和结束索引进行截取，得到新的字符串（包前不包后）
+String s8 = str.substring(0, 4); // Hell
+
+// 7、substring(int beginIndex)
+// 从传入的索引处截取，截取到末尾，得到新的字符串返回
+String s9 = str.substring( 4); // o World
+
+// 8、replace(CharSequence target, CharSequence replacement)
+// 使用新值，将字符串中的旧值替换，得到新的字符串
+String s10 = str.replace("Hello","**"); // ** World
+
+// 9、contains(CharSequence s)
+// 判断字符串中是否包含了某个字符串
+Boolean falg4 = str.contains("H"); // true
+
+// 10、startsWith(String prefix)
+// 判断字符串是否以某个字符串内容开头
+Boolean falg5 = str.startsWith("H"); // true
+
+// 11、split(String regex)
+// 把字符串按照某个字符串内容分割，并返回字符串数组回来
+String[] s11 =str.split(",");
+```
+
+### 4.2.3 注意事项
+
+- String是不可变字符串对象；
+
+- 只要是以“...”方式写出的字符串对象，会存储到字符串常量池，且相同内容的字符串只存储一份；
+- 通过new方式创建字符串对象，每new一次都会产生一个新的对象放在堆内存中。
+
+## 4.3 ArrayList
+
+### 4.3.1 概述 & 创建
+
+概述：
+
+- ArrayList属于集合的一种。
+
+- 集合是一种容器，用来装数据的，类似于数组，集合相比于数组大小可变。
+
+创建ArrayList对象：
+
+```java
+ArrayList<T> list = new ArrayList<>();
+```
+
+### 4.3.2 常用方法
+
+```java
+// 创建一个ArrayList的集合对象
+ArrayList<String> list = new ArrayList<>();
+
+// 1、add(E e)
+// 将指定的元素添加到此集合的末尾
+list.add("A");
+list.add("B");
+list.add("C");
+
+// 2、add(int index,E element)
+// 在此集合中的指定位置插入指定的元素
+list.add(2,"D");
+
+// 3、get(int index)
+// 返回指定索引处的元素
+String str = list.get(1);
+
+// 4、size()
+// 返回集合中的元素的个数
+int num = list.size();
+
+// 5、remove(int index)
+// 删除指定索引处的元素，返回被删除的元素
+list.remove(1);
+
+// 6、remove(Object o)
+// 删除指定的元素，返回删除是否成功(默认删除第一个出现的元素)
+list.remove("B");
+
+// 7、set(int index,E element)
+// 修改指定索引处的元素，返回被修改的元素
+list.set(1,"G");
+```
+
