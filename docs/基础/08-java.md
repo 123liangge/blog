@@ -708,13 +708,130 @@ Tip：在同一个类中访问类变量，可省略类名不写。
 | protected |    ✔     |          ✔           |        ✔         |         ✔          |
 |  public   |    ✔     |          ✔           |        ✔         |         ✔          |
 
-方法重写：
+方法重写：当子类觉得父类中的某个方法不好用，或者无法满足自己的需求时，子类可以重写一个方法名称、参数列表一样的方法，去覆盖父类的这个方法。
+
+方法重写注意事项：
+
+- 重写后，方法的访问，Java会遵循就近原则
+
+- 使用Override注解，他可以指定java编译器，检查我们方法重写的格式是否正确，代码可读性也会更好。
+
+  ```java
+  @Override
+  ```
+
+- 子类重写父类方法时，访问权限必须大于或者等于父类该方法的权限（ public > protected > 缺省 ）
+
+- 重写的方法返回值类型，必须与被重写方法的返回值类型一样，或者范围更小
+
+- 私有方法、静态方法不能被重写，如果重写会报错的
+
+子类访问父类成员变量及方法：`super.父类成员变量/父类成员方法`
+
+子类构造器特点：
+
+- 子类的全部构造器，都会先调用父类的构造器，再执行自己
+- 默认情况下，子类全部构造器的第一行代码都是 super() （写不写都有） ，它会调用父类的无参数构造器
+- 如果父类没有无参数构造器，则我们必须在子类构造器的**第一行**手写super(….)，指定去调用父类的有参数构造器
+- 任意类的构造器中，是可以通过this(…) 去调用该类的其他构造器
+
+注意：this(…)和super(…)必须放在构造器的第一行。
 
 ### 3.6 多态
 
+概述：多态是在继承/实现情况下的一种现象，表现为：对象多态、行为多态
+
+```java
+People p1 = new Student();
+
+People p2 = new Teacher();
+```
+
+类型转换
+
+- 自动类型转换：`父类 变量名 = new 子类()`
+
+  ```java
+  People p = new Teacher();
+  ```
+
+- 强制类型转换：`子类 变量名 = (子类) 父类变量`
+
+  ```java
+  Teacher t = (Teacher)p;
+  ```
+
+注意
+
+- 多态下不能使用子类的独有功能
+- 使用`instanceof`关键字，判断当前对象的真实类型，再进行强转
+
+### 3.7 final
+
+概述：
+
+- final 关键字是最终的意思，可以修饰（类、方法、变量）
+- 修饰类：该类被称为最终类，特点是不能被继承了
+- 修饰方法：该方法被称为最终方法，特点是不能被重写了
+- 修饰变量：该变量只能被赋值一次，被称为常量
+  - final修饰基本类型的变量，变量存储的数据不能被改变
+  - final修饰引用类型的变量，变量存储的地址不能被改变，但地址所指向对象的内容是可以被改变的
+  - 常量名的命名规范：建议使用大写英文单词，多个单词使用下划线连接起来
+
+```java
+//  声明类
+final class 类名 {//类体}
+// 声明方法
+修饰符(public/private/default/protected) final 返回值类型 方法名(){//方法体}
+```
+
+### 3.8 abstract
+
+概述
+
+- 抽象类最主要的特点：抽象类不能创建对象，仅作为一种特殊的父类，让子类继承并实现
+
+- 抽象类中不一定有抽象方法，有抽象方法的类一定是抽象类
+
+- 类该有的成员（成员变量、方法、构造器）抽象类都可以有
+
+- 一个类继承抽象类，必须重写完抽象类的全部抽象方法，否则这个类也必须定义成抽象类
+
+- ```java
+  修饰符 abstract class 类名{ 
+      // 抽象方法：必须abstract修饰，只有方法签名，不能有方法体。 
+  	修饰符 abstract 返回值类型 方法名称(形参列表)；
+   }
+  ```
+
+### 3.9 接口
+
+概述：接口并不是类，编写接口的方式和类很相似，但是它们属于不同的概念。类描述对象的属性和方法。接口则包含类要实现的方法。
+
+### 3.10 内部类
+
+概述：如果一个类定义在另一个类的内部，这个类就是内部类。
+
+场景：当一个类的内部，包含了一个完整的事物，且这个事物没有必要单独设计时，就可以把这个事物设计成内部类。
+
+### 3.11 枚举
+
+概述：枚举是一个特殊的类，一般表示一组常量。
+
+```java
+修饰符 enum 枚举类名{
+	   名称1 ,  名称2, ... ; 
+       其他成员…
+  }
+```
+
+### 3.12 泛型
+
+概述：定义类、接口、方法时，同时声明了一个或者多个类型变量（如：<E>） ，称为泛型类、泛型接口，泛型方法、它们统称为泛型。
+
 ## 四、常用API
 
-## 4.1 包
+### 4.1 包
 
 包是用来分门别类的管理各种不同程序的，类似于文件夹，建包有利于程序的管理和维护。
 
@@ -765,9 +882,9 @@ public class Test {
 }
 ```
 
-## 4.2 String
+### 4.2 String
 
-### 4.2.1 创建
+#### 4.2.1 创建
 
 ```java
 // 1、直接字面量创建
@@ -785,7 +902,7 @@ byte[] byteArr = {1, 2, 3, 4, 5};
 String str5 = new String(byteArr);
 ```
 
-### 4.2.2 常用方法
+#### 4.2.2 常用方法
 
 ```java
 String str = "Hello World";
@@ -839,16 +956,16 @@ Boolean falg5 = str.startsWith("H"); // true
 String[] s11 =str.split(",");
 ```
 
-### 4.2.3 注意事项
+#### 4.2.3 注意事项
 
 - String是不可变字符串对象；
 
 - 只要是以“...”方式写出的字符串对象，会存储到字符串常量池，且相同内容的字符串只存储一份；
 - 通过new方式创建字符串对象，每new一次都会产生一个新的对象放在堆内存中。
 
-## 4.3 ArrayList
+### 4.3 ArrayList
 
-### 4.3.1 概述 & 创建
+#### 4.3.1 概述 & 创建
 
 概述：
 
@@ -862,7 +979,7 @@ String[] s11 =str.split(",");
 ArrayList<T> list = new ArrayList<>();
 ```
 
-### 4.3.2 常用方法
+#### 4.3.2 常用方法
 
 ```java
 // 创建一个ArrayList的集合对象
@@ -899,3 +1016,111 @@ list.remove("B");
 list.set(1,"G");
 ```
 
+### 4.4 Object & Objects
+
+Object类是Java中所有类的祖宗类，因此，Java中所有类的对象都可以直接使用Object类中提供的一些方法。
+
+|             方法名              |           说明           |
+| :-----------------------------: | :----------------------: |
+|    public String toString()     | 返回对象的字符串表示形式 |
+| public boolean equals(Object o) |   判断两个对象是否相等   |
+|    protected Object clone()     |          浅克隆          |
+
+Objects是一个工具类，提供了很多操作对象的静态方法给我们使用。
+
+|                      方法名                      |                      说明                      |
+| :----------------------------------------------: | :--------------------------------------------: |
+| public static boolean equals(Object a, Object b) |          先做非空判断，再比较两个对象          |
+|     public static boolean isNull(Object obj)     |    判断对象是否为null，为null返回true ,反之    |
+|    public static boolean nonNull(Object obj)     | 判断对象是否不为null，不为null则返回true, 反之 |
+
+使用Objects类提供的equals方法来比较两个对象更安全
+
+### 4.5 包装类
+
+### 4.6 StringBuilder、StringBuffer
+
+### 4.7 StringJoiner
+
+### 4.8 Math
+
+```java
+// 1、public static int abs(int a)：取绝对值（拿到的结果一定是正数）
+// public static double abs(double a)
+System.out.println(Math.abs(-12)); // 12
+System.out.println(Math.abs(-3.14)); // 3.14
+
+// 2、public static double ceil(double a): 向上取整
+System.out.println(Math.ceil(4.0000001)); // 5.0
+System.out.println(Math.ceil(4.0)); // 4.0
+
+// 3、public static double floor(double a): 向下取整
+System.out.println(Math.floor(4.999999)); // 4.0
+System.out.println(Math.floor(4.0)); // 4.0
+
+// 4、public static long round(double a)：四舍五入
+System.out.println(Math.round(3.4999)); // 3
+System.out.println(Math.round(3.50001)); // 4
+
+// 5、public static int max(int a, int b)：取较大值
+//   public static int min(int a, int b)：取较小值
+System.out.println(Math.max(10, 20)); // 20
+System.out.println(Math.min(10, 20)); // 10
+
+// 6、 public static double pow(double a, double b)：取次方
+System.out.println(Math.pow(2, 3)); // 2的3次方   8.0
+System.out.println(Math.pow(3, 2)); // 3的2次方   9.0
+
+// 7、public static double random()： 取随机数 [0.0 , 1.0) (包前不包后)
+System.out.println(Math.random());
+```
+
+### 4.9 System
+
+```java
+// 1、public static void exit(int status):
+//   终止当前运行的Java虚拟机。
+//   该参数用作状态代码; 按照惯例，非零状态代码表示异常终止。
+System.exit(0); // 人为的终止虚拟机。(不要使用)
+
+// 2、public static long currentTimeMillis():
+//    获取当前系统的时间
+//    返回的是long类型的时间毫秒值：指的是从1970-1-1 0:0:0开始走到此刻的总的毫秒值，1s = 1000ms
+long time = System.currentTimeMillis();
+System.out.println(time);
+```
+
+### 4.10 Runtime
+
+Runtime是一个单例类，代表程序所在的运行环境。
+
+```java
+// 1、public static Runtime getRuntime() 返回与当前Java应用程序关联的运行时对象。
+Runtime r = Runtime.getRuntime();
+
+// 2、public void exit(int status) 终止当前运行的虚拟机,该参数用作状态代码; 按照惯例，非零状态代码表示异常终止。
+// r.exit(0);
+
+// 3、public int availableProcessors(): 获取虚拟机能够使用的处理器数。
+System.out.println(r.availableProcessors());
+
+// 4、public long totalMemory() 返回Java虚拟机中的内存总量。
+System.out.println(r.totalMemory()/1024.0/1024.0 + "MB"); // 1024 = 1K     1024 * 1024 = 1M
+
+// 5、public long freeMemory() 返回Java虚拟机中的可用内存量
+System.out.println(r.freeMemory()/1024.0/1024.0 + "MB");
+
+// 6、public Process exec(String command) 启动某个程序，并返回代表该程序的对象。
+// r.exec("D:\\soft\\XMind\\XMind.exe");
+Process p = r.exec("QQ");
+Thread.sleep(5000); // 让程序在这里暂停5s后继续往下走！！
+p.destroy(); // 销毁！关闭程序！
+```
+
+### 4.11 BigDecimal
+
+解决浮点型运算时，出现结果失真的问题
+
+### 4.12 日期时间
+
+八、java
