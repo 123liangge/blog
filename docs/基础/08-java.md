@@ -850,7 +850,7 @@ public class Test {
 - 如果当前程序中，要调用Java提供的程序，也需要先导包才可以使用；但是Java.lang包下的程序是不需要我们导包的，可以直接使用；
 - 如果当前程序中，要调用多个不同包下的程序，而这些程序名正好一样，此时默认只能导入一个程序，另一个程序必须带包名访问。
 
-```java
+```javascript
 package com.itheima.pkg;
 import com.itheima.pkg.itcast.Demo1;
 import com.itheima.pkg.itheima.Demo2;
