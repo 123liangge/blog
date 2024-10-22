@@ -24,6 +24,8 @@
 
 2. `instanceof`：判断引用数据类型
 
+   `Object.prototype.toString.call()`可判断所有数据类型
+
    ```js
    [] instanceof Array //true
    ```
@@ -67,7 +69,7 @@
 
 9. `…`：将一个数组/对象进行展开
 
-10. `?`“：条件式属性访问
+10. `?`：条件式属性访问
 
     ```js
     a? . b
