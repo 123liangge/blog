@@ -20,12 +20,12 @@ hero:
       link: /进阶/需求实现
 
 features:
-  - title: 热爱自由
-    details: 自由就是做自己喜欢的事情。
-  - title: 对生活充满激情
-    details: 生活可以拮据，理想一定要烂漫。
-  - title: 唯物辩证主义
-    details: 事物一定是辩证的！
+  - title:
+    details:
+  - title:
+    details:
+  - title:
+    details:
 ---
 
 <style>
