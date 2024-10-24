@@ -18,7 +18,8 @@ export default defineConfig({
   themeConfig: {
     // 导航栏配置
     nav: [
-      { text: "学习笔记", link: "/基础/01-html" },
+      { text: "前端", link: "/frontEnd/01-html" },
+      { text: "后端", link: "/backEnd/01-java" },
       { text: "需求实现", link: "/进阶/需求实现" },
       { text: "官方网站", link: "/进阶/官方网站" },
       {
@@ -45,20 +46,25 @@ export default defineConfig({
     ],
     // 侧边栏配置
     sidebar: {
-      "/基础/": [
+      "/frontEnd/": [
         {
           text: "目录",
           items: [
-            { text: "HTML", link: "/基础/01-html" },
-            { text: "CSS", link: "/基础/02-css" },
-            { text: "JavaScript", link: "/基础/03-JavaScript" },
-            { text: "Java", link: "/基础/08-java" },
-            { text: "jQuery", link: "/基础/04-jQuery" },
-            { text: "Git", link: "/基础/07-git" },
-            { text: "Echarts", link: "/基础/05-echarts" },
-            { text: "Three", link: "/基础/06-threeJs" },
-            { text: "高德地图", link: "/基础/09-高德地图" }
+            { text: "HTML", link: "/frontEnd/01-html" },
+            { text: "CSS", link: "/frontEnd/02-css" },
+            { text: "JavaScript", link: "/frontEnd/03-JavaScript" },
+            { text: "jQuery", link: "/frontEnd/04-jQuery" },
+            { text: "Git", link: "/frontEnd/07-git" },
+            { text: "Echarts", link: "/frontEnd/05-echarts" },
+            { text: "Three", link: "/frontEnd/06-threeJs" },
+            { text: "高德地图", link: "/frontEnd/08-高德地图" }
           ]
+        }
+      ],
+      "/backEnd/": [
+        {
+          text: "目录",
+          items: [{ text: "Java", link: "/backEnd/01-java" }]
         }
       ]
     },

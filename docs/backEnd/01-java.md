@@ -25,7 +25,7 @@
 
 5. JDK的组成
 
-   ![](./images/08-1.png)
+   ![](./images/01-1.png)
 
 6. Java开发工具
 
@@ -53,7 +53,7 @@ eg：int age = 18；
 
 ### 2.2 数据类型
 
-![](./images/08-2.png)
+![](./images/01-2.png)
 
 #### 2.2.1 基本数据类型
 
@@ -445,7 +445,7 @@ public class Test {
 }
 ```
 
-![](./images/08-3.jpg)
+![](./images/01-3.jpg)
 
 #### 2.4.2 执行原理
 

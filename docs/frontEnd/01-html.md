@@ -184,7 +184,7 @@ table {
 
 ## 七、表单标签
 
-### form标签：
+### form标签
 
 ```html
 <form action="url" method="post" enctype="multipart/form-data" name="name"></form>
@@ -255,13 +255,13 @@ enctype属性，编码类型
 
 ## 九、标签分类
 
-### 块标签：
+### 块标签
 
 常见的块标签有：`<div>,<ul><ol>,<li>,<p>,<h1~h6>`
 
 特点：独占一行，宽度默认是父级的100%，添加宽高属性生效
 
-### 行标签：
+### 行标签
 
 常见的行标签有：`<span>,<i>,<b>,<sub>,<sup>,<em>,<strong>,<a>`
 

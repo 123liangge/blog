@@ -13,11 +13,11 @@ hero:
     alt: avatar
   actions:
     - theme: brand
-      text: 学习笔记
-      link: /基础/01-html
+      text: 前端
+      link: /frontEnd/01-html
     - theme: alt
-      text: 需求实现
-      link: /进阶/需求实现
+      text: 后端
+      link: /backEnd/01-java
 
 features:
   - title: 前端
