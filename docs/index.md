@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "欢迎来到"
+  name: "Welcome to"
   text: "浪淘沙的编程学习之旅"
   tagline: 千淘万漉虽辛苦,吹尽狂沙始到金
   image:
