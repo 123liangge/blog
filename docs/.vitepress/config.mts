@@ -22,11 +22,11 @@ export default defineConfig({
       { text: "后端", link: "/backEnd/01-java" },
       { text: "需求实现", link: "/进阶/需求实现" },
       { text: "官方网站", link: "/进阶/官方网站" },
-      {
-        text: "xmind",
-        link: "/components/test"
-        // items: [{ text: "html", link: "http://localhost:5173/blog/test.html" }]
-      },
+      // {
+      //   text: "xmind",
+      //   link: "/components/test"
+      //   // items: [{ text: "html", link: "http://localhost:5173/blog/test.html" }]
+      // },
       {
         text: "在线工具",
         items: [
