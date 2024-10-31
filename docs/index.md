@@ -49,6 +49,9 @@ features:
   border-radius:50%
 } 
 .logo{
-animation: rotate 10s  linear infinite;
+  animation: rotate 10s  linear infinite;
+}
+.logo:hover{
+  animation: rotate 1s  linear infinite;
 }
 </style>

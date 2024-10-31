@@ -1121,6 +1121,392 @@ p.destroy(); // 销毁！关闭程序！
 
 解决浮点型运算时，出现结果失真的问题
 
+```java
+double a = 0.1;
+double b = 0.2;
+
+// 1、把浮点型数据封装成BigDecimal对象，再来参与运算。
+// a、public BigDecimal(double val) 得到的BigDecimal对象是无法精确计算浮点型数据的。 注意：不推荐使用这个，
+// b、public BigDecimal(String val)  得到的BigDecimal对象是可以精确计算浮点型数据的。 可以使用。
+// c、public static BigDecimal valueOf(double val): 通过这个静态方法得到的BigDecimal对象是可以精确运算的。是最好的方案。
+BigDecimal a1 = BigDecimal.valueOf(a);
+BigDecimal b1 = BigDecimal.valueOf(b);
+
+// 2、public BigDecimal add(BigDecimal augend): 加法
+BigDecimal c1 = a1.add(b1);
+System.out.println(c1);
+
+// 3、public BigDecimal subtract(BigDecimal augend): 减法
+BigDecimal c2 = a1.subtract(b1);
+System.out.println(c2);
+
+// 4、public BigDecimal multiply(BigDecimal augend): 乘法
+BigDecimal c3 = a1.multiply(b1);
+System.out.println(c3);
+
+// 5、public BigDecimal divide(BigDecimal b): 除法
+BigDecimal c4 = a1.divide(b1);
+System.out.println(c4);
+
+// BigDecimal d1 = BigDecimal.valueOf(0.1);
+// BigDecimal d2 = BigDecimal.valueOf(0.3);
+// BigDecimal d3 = d1.divide(d2);
+// System.out.println(d3);
+
+// 6、public BigDecimal divide(另一个BigDecimal对象，精确几位，舍入模式) : 除法，可以设置精确几位。
+BigDecimal d1 = BigDecimal.valueOf(0.1);
+BigDecimal d2 = BigDecimal.valueOf(0.3);
+BigDecimal d3 = d1.divide(d2,  2, RoundingMode.HALF_UP); // 0.33
+System.out.println(d3);
+
+// 7、public double doubleValue() : 把BigDecimal对象又转换成double类型的数据。
+// print(d3);
+// print(c1);
+double db1 = d3.doubleValue();
+double db2 = c1.doubleValue();
+print(db1);
+print(db2);
+```
+
 ### 4.12 日期时间
 
-八、java
+#### 1、jdk8之前的时间
+
+- Date
+
+  ```java
+  // 1、创建一个Date的对象：代表系统当前时间信息的。
+  Date d = new Date();
+  System.out.println(d); // Thu Sep 12 10:04:18 CST 2024
+  
+  // 2、拿到时间毫秒值。
+  long time = d.getTime();
+  System.out.println(time); // 1726106658257
+  
+  // 3、把时间毫秒值转换成日期对象
+  Date d2 = new Date(time);
+  System.out.println(d2); // Thu Sep 12 10:04:18 CST 2024
+  
+  // 4、直接把日期对象的时间通过setTime方法进行修改
+  Date d3 = new Date();
+  d3.setTime(time);
+  System.out.println(d3); // Thu Sep 12 10:04:18 CST 2024
+  ```
+
+- SimpleDateFormat
+
+  ```java
+  // 准备一些时间
+  Date d = new Date(); // Wed Oct 30 09:47:04 CST 2024
+  long time = d.getTime(); // 1730252844925
+  
+  // 1、格式化日期对象，和时间 毫秒值。
+  SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss EEE a");
+  
+  String rs = sdf.format(d); // 2024年10月30日 09:48:06 周三 上午
+  String rs2 = sdf.format(time); // // 2024年10月30日 09:48:06 周三 上午
+  
+  // 2、解析字符串时间 成为日期对象。
+  String dateStr = "2022-12-12 12:12:11";
+  // 创建简单日期格式化对象 , 指定的时间格式必须与被解析的时间格式一模一样，否则程序会出bug.
+  SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  Date d2 = sdf2.parse(dateStr); // Mon Dec 12 12:12:11 CST 2022
+  ```
+
+- Calendar
+
+  ```java
+  // 1、得到系统此刻时间对应的日历对象。
+  Calendar now = Calendar.getInstance();
+  System.out.println(now); // java.util.GregorianCalendar[time=1730253104506....
+  
+  // 2、获取日历中的某个信息
+  int year = now.get(Calendar.YEAR);
+  System.out.println(year); // 2024
+  
+  int days = now.get(Calendar.DAY_OF_YEAR); // 获取一年中的第多少天
+  System.out.println(days); // 304
+  
+  // 3、拿到日历中记录的日期对象。
+  Date d = now.getTime();
+  System.out.println(d); // Wed Oct 30 09:51:44 CST 2024
+  
+  // 4、拿到时间毫秒值
+  long time = now.getTimeInMillis();
+  System.out.println(time); // 1730253104506
+  
+  // 5、修改日历中的某个信息
+  now.set(Calendar.MONTH, 9); // 修改月份成为10月份。
+  now.set(Calendar.DAY_OF_YEAR, 125); // 修改成一年中的第125天。
+  System.out.println(now); // ....
+  
+  // 6、为某个信息增加或者减少多少
+  now.add(Calendar.DAY_OF_YEAR, 100);
+  now.add(Calendar.DAY_OF_YEAR, -10);
+  now.add(Calendar.DAY_OF_MONTH, 6);
+  now.add(Calendar.HOUR, 12);
+  now.set(2026, 11, 22);
+  System.out.println(now); // ....
+  ```
+
+#### 2、jdk8新增时间
+
+JDK8之前传统的时间API，都是可变对象，修改后会丢失最开始的时间信息；
+
+JDK8开始之后新增的时间API，都是不可变对象，修改后会返回新的时间对象，不会丢失最开始的时间。
+
+- LocalDate：年、月、日
+
+  ```java
+  // 0、获取本地日期对象(不可变对象)
+  LocalDate ld = LocalDate.now(); // 年 月 日
+  System.out.println(ld); // 2024-10-30
+  
+  // 1、获取日期对象中的信息
+  int year = ld.getYear(); // 年
+  System.out.println(year); // 2024
+  
+  int month = ld.getMonthValue(); // 月(1-12)
+  System.out.println(month); // 10
+  
+  int day = ld.getDayOfMonth(); // 日
+  System.out.println(day); // 30
+  
+  int dayOfYear = ld.getDayOfYear();  // 一年中的第几天
+  System.out.println(dayOfYear); // 304
+  
+  int dayOfWeek = ld.getDayOfWeek().getValue(); // 星期几
+  System.out.println(dayOfWeek); // 3
+  
+  // 2、直接修改某个信息: withYear、withMonth、withDayOfMonth、withDayOfYear
+  LocalDate ld2 = ld.withYear(2099);
+  LocalDate ld3 = ld.withMonth(12);
+  System.out.println(ld2); // 2099-10-30
+  System.out.println(ld3); // 2024-12-30
+  System.out.println(ld); // 2024-10-30
+  
+  // 3、把某个信息加多少: plusYears、plusMonths、plusDays、plusWeeks
+  LocalDate ld4 = ld.plusYears(2);
+  LocalDate ld5 = ld.plusMonths(2);
+  
+  // 4、把某个信息减多少：minusYears、minusMonths、minusDays、minusWeeks
+  LocalDate ld6 = ld.minusYears(2);
+  LocalDate ld7 = ld.minusMonths(2);
+  
+  // 5、获取指定日期的LocalDate对象： public static LocalDate of(int year, int month, int dayOfMonth)
+  LocalDate ld8 = LocalDate.of(2099, 12, 12);
+  LocalDate ld9 = LocalDate.of(2099, 12, 12);
+  
+  // 6、判断2个日期对象，是否相等，在前还是在后： equals isBefore isAfter
+  System.out.println(ld8.equals(ld9));// true
+  System.out.println(ld8.isAfter(ld)); // true
+  System.out.println(ld8.isBefore(ld)); // false
+  ```
+
+- LocalTime：时、分、秒
+
+  ```java
+  // 0、获取本地时间对象
+  LocalTime lt = LocalTime.now(); // 时 分 秒 纳秒 不可变的
+  System.out.println(lt);
+  
+  // 1、获取时间中的信息
+  int hour = lt.getHour(); //时
+  int minute = lt.getMinute(); //分
+  int second = lt.getSecond(); //秒
+  int nano = lt.getNano(); //纳秒
+  
+  // 2、修改时间：withHour、withMinute、withSecond、withNano
+  LocalTime lt3 = lt.withHour(10);
+  LocalTime lt4 = lt.withMinute(10);
+  LocalTime lt5 = lt.withSecond(10);
+  LocalTime lt6 = lt.withNano(10);
+  
+  // 3、加多少：plusHours、plusMinutes、plusSeconds、plusNanos
+  LocalTime lt7 = lt.plusHours(10);
+  LocalTime lt8 = lt.plusMinutes(10);
+  LocalTime lt9 = lt.plusSeconds(10);
+  LocalTime lt10 = lt.plusNanos(10);
+  
+  // 4、减多少：minusHours、minusMinutes、minusSeconds、minusNanos
+  LocalTime lt11 = lt.minusHours(10);
+  LocalTime lt12 = lt.minusMinutes(10);
+  LocalTime lt13 = lt.minusSeconds(10);
+  LocalTime lt14 = lt.minusNanos(10);
+  
+  // 5、获取指定时间的LocalTime对象：
+  // public static LocalTime of(int hour, int minute, int second)
+  LocalTime lt15 = LocalTime.of(12, 12, 12);
+  LocalTime lt16 = LocalTime.of(12, 12, 12);
+  
+  // 6、判断2个时间对象，是否相等，在前还是在后： equals isBefore isAfter
+  System.out.println(lt15.equals(lt16)); // true
+  System.out.println(lt15.isAfter(lt)); // false
+  System.out.println(lt15.isBefore(lt)); // true
+  ```
+
+- LocalDateTime：年、月、日、时、分、秒
+
+  ```java
+  // 0、获取本地日期和时间对象。
+  LocalDateTime ldt = LocalDateTime.now(); // 年 月 日 时 分 秒 纳秒
+  System.out.println(ldt); // 2024-10-30T17:26:29.224536300
+  
+  // 1、可以获取日期和时间的全部信息
+  int year = ldt.getYear(); // 年
+  int month = ldt.getMonthValue(); // 月
+  int day = ldt.getDayOfMonth(); // 日
+  int dayOfYear = ldt.getDayOfYear();  // 一年中的第几天
+  int dayOfWeek = ldt.getDayOfWeek().getValue();  // 获取是周几
+  int hour = ldt.getHour(); //时
+  int minute = ldt.getMinute(); //分
+  int second = ldt.getSecond(); //秒
+  int nano = ldt.getNano(); //纳秒
+  
+  // 2、修改时间信息：
+  // withYear withMonth withDayOfMonth withDayOfYear withHour
+  // withMinute withSecond withNano
+  LocalDateTime ldt2 = ldt.withYear(2029);
+  LocalDateTime ldt3 = ldt.withMinute(59);
+  
+  // 3、加多少:
+  // plusYears  plusMonths plusDays plusWeeks plusHours plusMinutes plusSeconds plusNanos
+  LocalDateTime ldt4 = ldt.plusYears(2);
+  LocalDateTime ldt5 = ldt.plusMinutes(3);
+  
+  // 4、减多少：
+  // minusDays minusYears minusMonths minusWeeks minusHours minusMinutes minusSeconds minusNanos
+  LocalDateTime ldt6 = ldt.minusYears(2);
+  LocalDateTime ldt7 = ldt.minusMinutes(3);
+  
+  
+  // 5、获取指定日期和时间的LocalDateTime对象：
+  // public static LocalDateTime of(int year, Month month, int dayOfMonth, int hour,
+  //                                  int minute, int second, int nanoOfSecond)
+  LocalDateTime ldt8 = LocalDateTime.of(2029, 12, 12, 12, 12, 12, 1222);
+  LocalDateTime ldt9 = LocalDateTime.of(2029, 12, 12, 12, 12, 12, 1222);
+  
+  // 6、 判断2个日期、时间对象，是否相等，在前还是在后： equals、isBefore、isAfter
+  System.out.println(ldt9.equals(ldt8));
+  System.out.println(ldt9.isAfter(ldt));
+  System.out.println(ldt9.isBefore(ldt));
+  
+  // 7、可以把LocalDateTime转换成LocalDate和LocalTime
+  // public LocalDate toLocalDate()
+  // public LocalTime toLocalTime()
+  // public static LocalDateTime of(LocalDate date, LocalTime time)
+  LocalDate ld = ldt.toLocalDate();
+  LocalTime lt = ldt.toLocalTime();
+  LocalDateTime ldt10 = LocalDateTime.of(ld, lt);
+  ```
+
+- ZoneId：时区、ZonedDateTime：带时区的时间
+
+  ```java
+  // 1、ZoneId的常见方法：
+  // public static ZoneId systemDefault(): 获取系统默认的时区
+  ZoneId zoneId = ZoneId.systemDefault();
+  System.out.println(zoneId.getId()); // Asia/Shanghai
+  System.out.println(zoneId); // Asia/Shanghai
+  
+  // public static Set<String> getAvailableZoneIds(): 获取Java支持的全部时区Id
+  System.out.println(ZoneId.getAvailableZoneIds()); // ....
+  
+  // public static ZoneId of(String zoneId) : 把某个时区id封装成ZoneId对象。
+  ZoneId zoneId1 = ZoneId.of("America/New_York");
+  
+  // 2、ZonedDateTime：带时区的时间。
+  // public static ZonedDateTime now(ZoneId zone): 获取某个时区的ZonedDateTime对象。
+  ZonedDateTime now = ZonedDateTime.now(zoneId1);
+  System.out.println(now); // 2024-10-30T05:30:11.825155-04:00[America/New_York]
+  
+  // 世界标准时间了
+  ZonedDateTime now1 = ZonedDateTime.now(Clock.systemUTC());
+  System.out.println(now1); // 2024-10-30T09:30:11.826156Z
+  
+  // public static ZonedDateTime now()：获取系统默认时区的ZonedDateTime对象
+  ZonedDateTime now2 = ZonedDateTime.now();
+  System.out.println(now2); // 2024-10-30T17:30:11.826156+08:00[Asia/Shanghai]
+  ```
+
+- Instant：时间戳/时间线
+
+  ```java
+  // 1、创建Instant的对象，获取此刻时间信息
+  Instant now = Instant.now(); // 不可变对象
+  
+  // 2、获取总秒数
+  long second = now.getEpochSecond();
+  System.out.println(second); // 1730336897
+  
+  // 3、不够1秒的纳秒数
+  int nano = now.getNano();
+  System.out.println(nano); // 195309000
+  
+  System.out.println(now); // 2024-10-31T01:08:17.195309Z
+  
+  Instant instant = now.plusNanos(111);
+  
+  // Instant对象的作用：做代码的性能分析，或者记录用户的操作时间点
+  Instant now1 = Instant.now();
+  // 代码执行。。。。
+  Instant now2 = Instant.now();
+  ```
+
+- DateTimeFormatter：用于时间的格式化和解析
+
+  ```java
+  // 1、创建一个日期时间格式化器对象出来。
+  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss");
+  
+  // 2、对时间进行格式化
+  LocalDateTime now = LocalDateTime.now();
+  System.out.println(now); // 2024-10-31T09:11:04.578716500
+  
+  String rs = formatter.format(now); // 正向格式化
+  System.out.println(rs); // 2024年10月31日 09:11:04
+  
+  // 3、格式化时间，其实还有一种方案。
+  String rs2 = now.format(formatter); // 反向格式化
+  System.out.println(rs2); // 2024年10月31日 09:11:04
+  
+  // 4、解析时间：解析时间一般使用LocalDateTime提供的解析方法来解析。
+  String dateStr = "2029年12月12日 12:12:11";
+  LocalDateTime ldt = LocalDateTime.parse(dateStr, formatter);
+  System.out.println(ldt); // 2029-12-12T12:12:11
+  ```
+
+- Duration：时间间隔（时、分、秒，纳秒）
+
+  ```java
+  LocalDateTime start = LocalDateTime.of(2025, 11, 11, 11, 10, 10);
+  LocalDateTime end = LocalDateTime.of(2025, 11, 11, 11, 11, 11);
+  // 1、得到Duration对象
+  Duration duration = Duration.between(start, end);
+  
+  // 2、获取两个时间对象间隔的信息
+  System.out.println(duration.toDays());// 间隔多少天
+  System.out.println(duration.toHours());// 间隔多少小时
+  System.out.println(duration.toMinutes());// 间隔多少分
+  System.out.println(duration.toSeconds());// 间隔多少秒
+  System.out.println(duration.toMillis());// 间隔多少毫秒
+  System.out.println(duration.toNanos());// 间隔多少纳秒
+  ```
+
+- Period：时间间隔（年，月，日）
+
+  ```java
+  LocalDate start = LocalDate.of(2029, 8, 10);
+  LocalDate end = LocalDate.of(2029, 12, 15);
+  
+  // 1、创建Period对象，封装两个日期对象。
+  Period period = Period.between(start, end);
+  
+  // 2、通过period对象获取两个日期对象相差的信息。
+  System.out.println(period.getYears()); // 0
+  System.out.println(period.getMonths()); // 4
+  System.out.println(period.getDays()); // 5
+  ```
+
+### 4.13 Arrays
+

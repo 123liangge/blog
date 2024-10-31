@@ -23,6 +23,11 @@ export default defineConfig({
       { text: "需求实现", link: "/进阶/需求实现" },
       { text: "官方网站", link: "/进阶/官方网站" },
       {
+        text: "xmind",
+        link: "/components/test"
+        // items: [{ text: "html", link: "http://localhost:5173/blog/test.html" }]
+      },
+      {
         text: "在线工具",
         items: [
           { text: "favicon图标制作", link: "https://www.bitbug.net/" },
