@@ -28,24 +28,37 @@ export default defineConfig({
       //   // items: [{ text: "html", link: "http://localhost:5173/blog/test.html" }]
       // },
       {
+        text: "css工具集",
+        items: [
+          { text: "抖动特效", link: "https://elrumordelaluz.github.io/csshake/" },
+          { text: "css动画可编辑", link: "https://animista.net/play" },
+          { text: "鼠标悬浮动画", link: "https://ianlunn.github.io/Hover/" },
+          { text: "布条背景图生成器", link: "https://stripesgenerator.com/" },
+          { text: "磨砂透明效果", link: "https://glassgenerator.netlify.app/" },
+          { text: "波浪生成器1", link: "https://svgwave.in/" },
+          { text: "波浪生成器2", link: "https://getwaves.io/" },
+          { text: "圆角生成器", link: "https://9elements.github.io/fancy-border-radius/" },
+          { text: "css三角形", link: "https://www.dute.org/css-arrow" },
+          { text: "盒子阴影", link: "https://getcssscan.com/css-box-shadow-examples" },
+          { text: "盒子阴影生成器", link: "http://cssbud.com/css-generator/css-box-shadow-generator/" },
+          { text: "盒子发光发生器", link: "http://cssbud.com/css-generator/css-glow-generator/" },
+          { text: "文本发光生成器", link: "http://cssbud.com/css-generator/css-text-glow-generator/" },
+          { text: "文本下划线生成器", link: "http://cssbud.com/css-generator/css-underline-generator/" },
+          { text: "文本阴影生成器", link: "http://cssbud.com/css-generator/css-text-shadow-generator/" },
+          { text: "Css功能生成器", link: "https://www.cssportal.com/css-ribbon-generator/" }
+        ]
+      },
+      {
         text: "在线工具",
         items: [
           { text: "favicon图标制作", link: "https://www.bitbug.net/" },
           { text: "正则表达式验证", link: "http://www.jsons.cn/reg/" },
           { text: "gsap动画库", link: "https://gsap.com/" },
-          { text: "新拟态设计", link: "https://neumorphism.io/#e0e0e0" },
-          { text: "透明玻璃态生成器", link: "https://hype4.academy/tools/glassmorphism-generator" },
-          { text: "波浪效果CSS生成器", link: "https://getwaves.io/" },
-          { text: "盒子阴影示例", link: "https://getcssscan.com/css-box-shadow-examples" },
-          { text: "盒子阴影生成器", link: "http://cssbud.com/css-generator/css-box-shadow-generator/" },
-          { text: "CSS 发光发生器", link: "http://cssbud.com/css-generator/css-glow-generator/" },
-          { text: "CSS 下划线生成器", link: "http://cssbud.com/css-generator/css-underline-generator/" },
-          { text: "CSS 文本阴影生成器", link: "http://cssbud.com/css-generator/css-text-shadow-generator/" },
           { text: "渐变颜色按钮", link: "https://gradientbuttons.colorion.co/" },
-          { text: "CSS 文本发光生成器", link: "http://cssbud.com/css-generator/css-text-glow-generator/" },
           { text: "元标签生成器", link: "https://webcode.tools/generators/meta-tags" },
-          { text: "Css功能生成器", link: "https://www.cssportal.com/css-ribbon-generator/" },
-          { text: "Css三角形", link: "https://www.dute.org/css-arrow" }
+          { text: "视频转gif", link: "https://ezgif.com/" },
+          { text: "在线代码编辑器", link: "https://codesandbox.io/" },
+          { text: "在线代码编辑器", link: "https://jsbin.com/" }
         ]
       }
     ],
