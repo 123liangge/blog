@@ -20,7 +20,7 @@
 
 3. 测试运行
 
-​	浏览器输入http://localhost:8080/hello
+​	浏览器输入`http://localhost:8080/hello`
 
 ## 二、HTTP协议
 
