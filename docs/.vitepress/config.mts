@@ -84,7 +84,8 @@ export default defineConfig({
           text: "目录",
           items: [
             { text: "Java", link: "/backEnd/01-java" },
-            { text: "maven", link: "/backEnd/02-maven" }
+            { text: "maven", link: "/backEnd/02-maven" },
+            { text: "spring", link: "/backEnd/03-spring" }
           ]
         }
       ]
