@@ -53,7 +53,8 @@ HTTP：Hyper Text Transfer Protocol(超文本传输协议)，规定了浏览器�
 | Accept-Encoding |      表示浏览器可以支持的压缩类型，例如gzip, deflate等       |
 | Content-Type    |                      请求主体的数据类型                      |
 | Content-Length  |                 数据主体的大小（单位：字节）                 |
-| **请求体**      |                                                              |
+
+**请求体**
 
 存放请求参数
 
@@ -95,7 +96,130 @@ HTTP：Hyper Text Transfer Protocol(超文本传输协议)，规定了浏览器�
 
 ### 3.1 请求
 
-简单参数
+**简单参数**
+
+接收
+
+```java
+@RestController
+public class RequestControl {
+    @RequestMapping("/simpleParam")
+    public String simpleParam(String name, Integer age) {
+        System.out.println(name + ":" + age);
+        return "ok";
+    }
+}
+```
+
+参数映射
+
+```java
+@RestController
+public class RequestControl {
+    @RequestMapping("/simpleParam")
+    //请求参数名和形参名不相同
+    //@RequestParam中的required属性默认为true（默认值也是true），代表该请求参数必须传递，如果不传递将报错
+    public String simpleParam(@RequestParam("name") String username, Integer age) {
+        System.out.println(username + ":" + age);
+        return "ok";
+    }
+}
+```
+
+**实体参数**
+
+- 创建实体类
+
+  ```Java
+  // 创建实体类
+  public class User {
+      private String name;
+      private Integer age;
+  
+      public String getName() {
+          return name;
+      }
+  
+      public void setName(String name) {
+          this.name = name;
+      }
+  
+      public Integer getAge() {
+          return age;
+      }
+  
+      public void setAge(Integer age) {
+          this.age = age;
+      }
+  
+      @Override
+      public String toString() {
+          return "User{" +
+                  "name='" + name + '\'' +
+                  ", age=" + age +
+                  '}';
+      }
+  }
+  ```
+
+- 接收
+
+  ```java
+  @RequestMapping("/simplePojo")
+      public String Pojo(User user){
+          System.out.println(user);
+          return "ok";
+      }
+  ```
+
+**数组集合参数**
+
+数组
+
+```java
+@RequestMapping("/arrParam")
+    public String ArrParam(String [] hobby){
+        System.out.println(Arrays.toString(hobby));
+        return "ok";
+    }
+```
+
+集合
+
+```Java
+@RequestMapping("/arrParam")
+    public String ArrParam(@RequestParam List<String> hobby){
+        System.out.println(hobby);
+        return "ok";
+    }
+```
+
+**日期参数**
+
+```Java
+@RequestMapping("/dataParam")
+    public String dataParam(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime updateTime){
+        System.out.println(updateTime);
+        return "ok";
+    }
+```
+
+**JSON参数**
+
+```Java
+// 要使用@RequestBody标识
+@RequestMapping("/jsonParam")
+    public String jsonParam(@RequestBody User user){
+        System.out.println(user);
+        return "ok";
+    }
+```
+
+**路径参数**
+
+通过请求URL直接传递参数，使用{...}来标识该路径参数，需使用@ 获取路径参数
+
+
 
 ### 3.2 响应
 
