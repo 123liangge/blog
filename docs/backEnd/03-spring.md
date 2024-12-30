@@ -217,9 +217,15 @@ public class RequestControl {
 
 **路径参数**
 
-通过请求URL直接传递参数，使用{...}来标识该路径参数，需使用@ 获取路径参数
+通过请求URL直接传递参数，使用`{...}`来标识该路径参数，需使用 `@PathVariable` 获取路径参数，可传递多个路径参数
 
-
+```java
+@RequestMapping("/path/{id}")
+    public String path(@PathVariable Integer id){
+        System.out.println(id);
+        return "ok";
+    }
+```
 
 ### 3.2 响应
 
